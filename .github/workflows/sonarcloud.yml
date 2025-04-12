@@ -65,8 +65,8 @@ jobs:
         run: dotnet build "backend\Gestiondeusuariosyseguridad\MSGestionDeUsuariosySeguridad\MSGestionDeUsuariosySeguridad.sln"
 
       - name: Test with coverage
-        run: dotnet test --no-build --collect:"XPlat Code Coverage"
-
+        run: dotnet test backend/Gestiondeusuariosyseguridad/MSGestionDeUsuariosySeguridad/MSGestionDeUsuariosySeguridad.sln --no-build --collect:"XPlat Code Coverage"
+        
       - name: End SonarCloud analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
