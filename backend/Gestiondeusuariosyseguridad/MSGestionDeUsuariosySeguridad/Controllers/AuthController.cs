@@ -60,5 +60,62 @@ namespace MSGestionDeUsuariosySeguridad.Controllers
             return BadRequest(new { error = resultado });
         }
 
+        /// Endpoint para restablecer contraseña
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromQuery] string token, [FromBody] string nuevaContrasena)
+        {
+            var resultado = await _authService.ResetPassword(token, nuevaContrasena);
+
+            if (!resultado)
+                return BadRequest(new { mensaje = "Token inválido o expirado." });
+
+            return Ok(new { mensaje = "Contraseña restablecida correctamente." });
+        }
+
+        /// Obtener todos los usuarios (solo administradores)
+        [HttpGet("usuarios")]
+        //[Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var usuarios = await _authService.GetAllUsers();
+            return Ok(usuarios);
+        }
+
+        /// Obtener un usuario por email (solo administradores)
+        [HttpGet("usuario")]
+        //[Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> GetUserByEmail([FromQuery] string email)
+        {
+            var usuario = await _authService.GetUserByEmail(email);
+            if (usuario == null)
+                return NotFound(new { mensaje = "Usuario no encontrado." });
+
+            return Ok(usuario);
+        }
+
+        /// Modificar el rol de un usuario (solo administradores)
+        [HttpPut("rol")]
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> UpdateUserRole([FromQuery] int userId, [FromQuery] int newRoleId)
+        {
+            var resultado = await _authService.UpdateUserRole(userId, newRoleId);
+            if (!resultado)
+                return BadRequest(new { mensaje = "Usuario o rol no válido." });
+
+            return Ok(new { mensaje = "Rol actualizado correctamente." });
+        }
+
+        /// Eliminar un usuario (solo administradores)
+        [HttpDelete("{userId}")]
+        //[Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> DeleteUser(int userId)
+        {
+            var resultado = await _authService.DeleteUser(userId);
+            if (!resultado)
+                return NotFound(new { mensaje = "Usuario no encontrado o ya eliminado." });
+
+            return Ok(new { mensaje = "Usuario eliminado correctamente." });
+        }
+
     }
 }
