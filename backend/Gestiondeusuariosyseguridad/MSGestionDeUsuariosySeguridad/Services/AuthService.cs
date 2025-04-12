@@ -18,6 +18,7 @@ namespace MSGestionDeUsuariosySeguridad.Services
             _config = config;
         }
 
+        // Método para iniciar sesión
         public async Task<LoginResponseDto> Login(LoginRequestDTO dto, HttpContext httpContext)
         {
             var usuario = await _context.Usuarios
@@ -91,6 +92,7 @@ namespace MSGestionDeUsuariosySeguridad.Services
             };
         }
 
+        // Método para registrar un nuevo usuario
         public async Task<string> Register(RegisterRequestDTO dto)
         {
             var existe = await _context.Usuarios.AnyAsync(u => u.Correo == dto.Correo);
@@ -117,6 +119,8 @@ namespace MSGestionDeUsuariosySeguridad.Services
             return "Usuario registrado correctamente.";
         }
 
+
+        // Método para cerrar sesión
         public async Task<bool> Logout(string token)
         {
             var tokenGuardado = await _context.TokenAccesos
@@ -126,11 +130,90 @@ namespace MSGestionDeUsuariosySeguridad.Services
                 return false;
 
             tokenGuardado.Revocado = true;
+            tokenGuardado.Usuario.Activo = false; // Desactivar el usuario al cerrar sesión
             await _context.SaveChangesAsync();
 
             return true;
         }
 
+        // Método para restablecer contraseña
+        public async Task<bool> ResetPassword(string token, string nuevaContrasena)
+        {
+            var tokenGuardado = await _context.TokenAccesos
+                .Include(t => t.Usuario)
+                .FirstOrDefaultAsync(t => t.Token == token && t.Revocado == false);
+
+            if (tokenGuardado == null || tokenGuardado.FechaExpiracion < DateTime.UtcNow)
+                return false;
+
+            tokenGuardado.Usuario.ContrasenaHasheada = PasswordHasher.Hashear(nuevaContrasena);
+            tokenGuardado.Revocado = true; // invalidamos el token tras su uso
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        // Obtener todos los usuarios
+        public async Task<List<UsuarioDTO>> GetAllUsers()
+        {
+            var usuarios = await _context.Usuarios
+                .Include(u => u.Rol)
+                .Select(u => new UsuarioDTO
+                {
+                    Id = u.Id,
+                    Nombre = u.Nombre,
+                    Correo = u.Correo,
+                    RolName = u.Rol.Nombre
+                })
+                .ToListAsync();
+
+            return usuarios;
+        }
+
+        // Obtener usuario por email
+        public async Task<UsuarioDTO> GetUserByEmail(string email)
+        {
+            var usuario = await _context.Usuarios
+                .Include(u => u.Rol)
+                .FirstOrDefaultAsync(u => u.Correo == email);
+
+            if (usuario == null)
+                return null;
+
+            return new UsuarioDTO
+            {
+                Id = usuario.Id,
+                Nombre = usuario.Nombre,
+                Correo = usuario.Correo,
+                RolName = usuario.Rol?.Nombre ?? "Desconocido"
+            };
+        }
+
+        // Modificar el rol de un usuario
+        public async Task<bool> UpdateUserRole(int userId, int newRoleId)
+        {
+            var usuario = await _context.Usuarios.FindAsync(userId);
+            var nuevoRol = await _context.Rols.FindAsync(newRoleId);
+
+            if (usuario == null || nuevoRol == null)
+                return false;
+
+            usuario.RolId = newRoleId;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        // Eliminar un usuario (eliminación lógica)
+        public async Task<bool> DeleteUser(int userId)
+        {
+            var usuario = await _context.Usuarios.FindAsync(userId);
+            if (usuario == null)
+                return false;
+
+            usuario.Activo = false;
+            await _context.SaveChangesAsync();
+            return true;
+        }
 
     }
 }

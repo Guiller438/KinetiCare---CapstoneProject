@@ -1,12 +1,19 @@
-# Node.js
-node_modules/
-dist/
-.vscode/
+# Visual Studio
+.vs/
+*.user
+*.suo
 
-# .NET Core
+# Copilot y configuración local
+**/CopilotIndices/
+*.db
+*.backup.json
+*.json
+
+# Build
 bin/
 obj/
-appsettings.json
 
-# Docker
-docker-compose.override.yml
+# Test and coverage
+TestResults/
+*.coverage
+coverage.cobertura.xml

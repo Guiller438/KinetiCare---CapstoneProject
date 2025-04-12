@@ -3,44 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|c:\\users\\megablodfix\\desktop\\kineticare - capstoneproject\\kineticare---capstoneproject\\backend\\gestiondeusuariosyseguridad\\msgestiondeusuariosyseguridad\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|solutionrelative:controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|c:\\users\\megablodfix\\desktop\\kineticare - capstoneproject\\kineticare---capstoneproject\\backend\\gestiondeusuariosyseguridad\\msgestiondeusuariosyseguridad\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|c:\\users\\megablodfix\\desktop\\kineticare - capstoneproject\\kineticare---capstoneproject\\backend\\gestiondeusuariosyseguridad\\msgestiondeusuariosyseguridad\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|solutionrelative:services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|c:\\users\\megablodfix\\desktop\\kineticare - capstoneproject\\kineticare---capstoneproject\\backend\\gestiondeusuariosyseguridad\\msgestiondeusuariosyseguridad\\dtos\\usuariodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|solutionrelative:dtos\\usuariodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|c:\\users\\megablodfix\\desktop\\kineticare - capstoneproject\\kineticare---capstoneproject\\backend\\gestiondeusuariosyseguridad\\msgestiondeusuariosyseguridad\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|solutionrelative:controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|c:\\users\\megablodfix\\desktop\\kineticare - capstoneproject\\kineticare---capstoneproject\\backend\\gestiondeusuariosyseguridad\\msgestiondeusuariosyseguridad\\interfaces\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|solutionrelative:interfaces\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|c:\\users\\megablodfix\\desktop\\kineticare - capstoneproject\\kineticare---capstoneproject\\backend\\gestiondeusuariosyseguridad\\msgestiondeusuariosyseguridad\\helpers\\iphelpers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|solutionrelative:helpers\\iphelpers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|c:\\users\\megablodfix\\desktop\\kineticare - capstoneproject\\kineticare---capstoneproject\\backend\\gestiondeusuariosyseguridad\\msgestiondeusuariosyseguridad\\dtos\\loginresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|solutionrelative:dtos\\loginresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|c:\\users\\megablodfix\\desktop\\kineticare - capstoneproject\\kineticare---capstoneproject\\backend\\gestiondeusuariosyseguridad\\msgestiondeusuariosyseguridad\\helpers\\passwordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|solutionrelative:helpers\\passwordhasher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|c:\\users\\megablodfix\\desktop\\kineticare - capstoneproject\\kineticare---capstoneproject\\backend\\gestiondeusuariosyseguridad\\msgestiondeusuariosyseguridad\\helpers\\jwthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|solutionrelative:helpers\\jwthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|c:\\users\\megablodfix\\desktop\\kineticare - capstoneproject\\kineticare---capstoneproject\\backend\\gestiondeusuariosyseguridad\\msgestiondeusuariosyseguridad\\dtos\\registerrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|solutionrelative:dtos\\registerrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|c:\\users\\megablodfix\\desktop\\kineticare - capstoneproject\\kineticare---capstoneproject\\backend\\gestiondeusuariosyseguridad\\msgestiondeusuariosyseguridad\\dtos\\loginrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EA4BD861-C42F-4E0E-9CB2-0DBDC3109612}|MSGestionDeUsuariosySeguridad.csproj|solutionrelative:dtos\\loginrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -70,39 +46,39 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAAAFYAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-02T23:31:30.082Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "IPHelpers.cs",
-              "DocumentMoniker": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\Helpers\\IPHelpers.cs",
-              "RelativeDocumentMoniker": "Helpers\\IPHelpers.cs",
-              "ToolTip": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\Helpers\\IPHelpers.cs",
-              "RelativeToolTip": "Helpers\\IPHelpers.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-02T23:00:40.23Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "AuthController.cs",
               "DocumentMoniker": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
               "ToolTip": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\Controllers\\AuthController.cs",
               "RelativeToolTip": "Controllers\\AuthController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAAAHUAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-02T19:24:12.021Z",
+              "WhenOpened": "2025-04-12T22:27:28.066Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UsuarioDTO.cs",
+              "DocumentMoniker": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\DTOs\\UsuarioDTO.cs",
+              "RelativeDocumentMoniker": "DTOs\\UsuarioDTO.cs",
+              "ToolTip": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\DTOs\\UsuarioDTO.cs",
+              "RelativeToolTip": "DTOs\\UsuarioDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T22:26:19.4Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\Services\\AuthService.cs",
+              "RelativeDocumentMoniker": "Services\\AuthService.cs",
+              "ToolTip": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\Services\\AuthService.cs",
+              "RelativeToolTip": "Services\\AuthService.cs",
+              "ViewState": "AgIAAKgAAAAAAAAAAAAowNQAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-12T22:21:11.408Z",
               "EditorCaption": ""
             },
             {
@@ -113,81 +89,9 @@
               "RelativeDocumentMoniker": "Interfaces\\IAuthService.cs",
               "ToolTip": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\Interfaces\\IAuthService.cs",
               "RelativeToolTip": "Interfaces\\IAuthService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-02T19:12:49.637Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "RegisterRequestDTO.cs",
-              "DocumentMoniker": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\DTOs\\RegisterRequestDTO.cs",
-              "RelativeDocumentMoniker": "DTOs\\RegisterRequestDTO.cs",
-              "ToolTip": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\DTOs\\RegisterRequestDTO.cs",
-              "RelativeToolTip": "DTOs\\RegisterRequestDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-02T19:10:06.577Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AuthService.cs",
-              "DocumentMoniker": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\Services\\AuthService.cs",
-              "RelativeDocumentMoniker": "Services\\AuthService.cs",
-              "ToolTip": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\Services\\AuthService.cs",
-              "RelativeToolTip": "Services\\AuthService.cs",
-              "ViewState": "AgIAAG0AAAAAAAAAAAAUwHoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-02T19:09:45.965Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "JWTHelper.cs",
-              "DocumentMoniker": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\Helpers\\JWTHelper.cs",
-              "RelativeDocumentMoniker": "Helpers\\JWTHelper.cs",
-              "ToolTip": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\Helpers\\JWTHelper.cs",
-              "RelativeToolTip": "Helpers\\JWTHelper.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAYwC4AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-02T19:05:23.352Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "PasswordHasher.cs",
-              "DocumentMoniker": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\Helpers\\PasswordHasher.cs",
-              "RelativeDocumentMoniker": "Helpers\\PasswordHasher.cs",
-              "ToolTip": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\Helpers\\PasswordHasher.cs",
-              "RelativeToolTip": "Helpers\\PasswordHasher.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA8AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-02T19:03:02.453Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "LoginResponseDTO.cs",
-              "DocumentMoniker": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\DTOs\\LoginResponseDTO.cs",
-              "RelativeDocumentMoniker": "DTOs\\LoginResponseDTO.cs",
-              "ToolTip": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\DTOs\\LoginResponseDTO.cs",
-              "RelativeToolTip": "DTOs\\LoginResponseDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-02T19:01:03.417Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "LoginRequestDTO.cs",
-              "DocumentMoniker": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\DTOs\\LoginRequestDTO.cs",
-              "RelativeDocumentMoniker": "DTOs\\LoginRequestDTO.cs",
-              "ToolTip": "C:\\Users\\MEGABLODFIX\\Desktop\\KinetiCare - CapstoneProject\\KinetiCare---CapstoneProject\\backend\\Gestiondeusuariosyseguridad\\MSGestionDeUsuariosySeguridad\\DTOs\\LoginRequestDTO.cs",
-              "RelativeToolTip": "DTOs\\LoginRequestDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAIAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-02T19:00:55.361Z"
+              "WhenOpened": "2025-04-12T22:21:10.417Z"
             }
           ]
         }

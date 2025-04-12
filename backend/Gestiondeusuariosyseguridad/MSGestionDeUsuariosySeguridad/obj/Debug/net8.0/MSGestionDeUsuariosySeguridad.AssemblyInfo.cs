@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MSGestionDeUsuariosySeguridad")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c66aab4cd56ff99de944289e9410c4560978afe1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c4f0b4c790fab631a49e8a7e1344e9053cd53ece")]
 [assembly: System.Reflection.AssemblyProductAttribute("MSGestionDeUsuariosySeguridad")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MSGestionDeUsuariosySeguridad")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
