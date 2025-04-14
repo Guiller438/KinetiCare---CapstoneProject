@@ -1,0 +1,6 @@
+@MSEvaluacionyDiagnostico_HostAddress = http://localhost:5187
+
+GET {{MSEvaluacionyDiagnostico_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
