@@ -12,6 +12,7 @@ public partial class Respuestum
     public int? PreguntaId { get; set; }
 
     public string? Valor { get; set; }
+    public string? Sentimiento { get; set; }
 
     public virtual Evaluacion? Evaluacion { get; set; }
 

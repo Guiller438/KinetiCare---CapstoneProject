@@ -112,6 +112,8 @@ public partial class KinetiCareDbContext : DbContext
             entity.HasKey(e => e.Id).HasName("PK__Respuest__3214EC07B227F81B");
 
             entity.Property(e => e.Valor).HasMaxLength(255);
+            entity.Property(e => e.Sentimiento).HasMaxLength(15).IsUnicode(false);
+
 
             entity.HasOne(d => d.Evaluacion).WithMany(p => p.Respuesta)
                 .HasForeignKey(d => d.EvaluacionId)

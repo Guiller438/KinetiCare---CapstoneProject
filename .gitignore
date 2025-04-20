@@ -1,34 +1,61 @@
-# Visual Studio
+########################################
+# Visual Studio y entorno de desarrollo
+########################################
 .vs/
+.vscode/
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
 *.dtbcache.*
-.vs/ProjectEvaluation/
-*.v9.bin
+*.sdf
 *.cache
+*.log
+*.tlog
+*.pdb
+*.suo
+*.sln.docstates
+*.orig
+*.bak
+*.old
 
-# Build output
+########################################
+# Archivos de proyecto .NET
+########################################
 bin/
 obj/
-*.tlog
+*.dll
+*.exe
+*.tmp
+*.csproj.user
+*.appx
+*.appxbundle
+*.msix
+*.msixbundle
+*.vsix
 
+########################################
 # Copilot y archivos locales
+########################################
 **/CopilotIndices/
 *.db
 *.backup.json
-*.json
 
-# Test and coverage
+########################################
+# Pruebas y cobertura
+########################################
 TestResults/
 *.coverage
 coverage.cobertura.xml
 
-# .NET project locks
-project.lock.json
-project.fragment.lock.json
-*.csproj.user
-
-# Ignorar carpeta específica si no es parte del repo
-backend/Evaluacionydiagnostico/
+########################################
+# Node y React frontend
+########################################
+node_modules/
+npm-debug.log
+yarn-error.log
+dist/
+build/
+.env
+.env.local
+.env.*.local
