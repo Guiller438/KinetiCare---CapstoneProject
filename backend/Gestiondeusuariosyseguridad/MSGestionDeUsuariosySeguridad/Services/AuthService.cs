@@ -130,7 +130,6 @@ namespace MSGestionDeUsuariosySeguridad.Services
                 return false;
 
             tokenGuardado.Revocado = true;
-            tokenGuardado.Usuario.Activo = false; // Desactivar el usuario al cerrar sesión
             await _context.SaveChangesAsync();
 
             return true;

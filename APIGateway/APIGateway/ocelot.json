@@ -1,0 +1,108 @@
+﻿{
+  "Routes": [
+    {
+      // Inicio de sesión
+      "DownstreamPathTemplate": "/api/auth/login",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7001
+        }
+      ],
+      "UpstreamPathTemplate": "/api/auth/login",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      // Cierre de sesión (logout)
+      "DownstreamPathTemplate": "/api/auth/logout",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7001
+        }
+      ],
+      "UpstreamPathTemplate": "/api/auth/logout",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      // Registro de usuario
+      "DownstreamPathTemplate": "/api/auth/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7001
+        }
+      ],
+      "UpstreamPathTemplate": "/api/auth/register",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      // Restablecer contraseña
+      "DownstreamPathTemplate": "/api/auth/reset-password",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7001
+        }
+      ],
+      "UpstreamPathTemplate": "/api/auth/reset-password",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      // Obtener todos los usuarios
+      "DownstreamPathTemplate": "/api/auth/usuarios",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7001
+        }
+      ],
+      "UpstreamPathTemplate": "/api/auth/usuarios",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      // Obtener usuario por correo
+      "DownstreamPathTemplate": "/api/auth/usuario?email={email}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7001
+        }
+      ],
+      "UpstreamPathTemplate": "/api/auth/usuario",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      // Modificar el rol de un usuario
+      "DownstreamPathTemplate": "/api/auth/rol?userId={userId}&newRoleId={newRoleId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7001
+        }
+      ],
+      "UpstreamPathTemplate": "/api/auth/rol",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      // Eliminar un usuario
+      "DownstreamPathTemplate": "/api/auth/{userId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7001
+        }
+      ],
+      "UpstreamPathTemplate": "/api/auth/{userId}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    }
+  ]
+}
