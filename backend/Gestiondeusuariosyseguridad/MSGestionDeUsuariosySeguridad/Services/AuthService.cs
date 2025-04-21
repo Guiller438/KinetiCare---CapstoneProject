@@ -153,6 +153,7 @@ namespace MSGestionDeUsuariosySeguridad.Services
         }
 
         // Obtener todos los usuarios
+
         public async Task<List<UsuarioDTO>> GetAllUsers()
         {
             var usuarios = await _context.Usuarios
@@ -162,7 +163,8 @@ namespace MSGestionDeUsuariosySeguridad.Services
                     Id = u.Id,
                     Nombre = u.Nombre,
                     Correo = u.Correo,
-                    RolName = u.Rol.Nombre
+                    RolName = u.Rol.Nombre,
+                    Activo = u.Activo
                 })
                 .ToListAsync();
 
@@ -188,19 +190,25 @@ namespace MSGestionDeUsuariosySeguridad.Services
             };
         }
 
-        // Modificar el rol de un usuario
-        public async Task<bool> UpdateUserRole(int userId, int newRoleId)
+        // Actualizar Usuario
+        public async Task<bool> UpdateUser(EditUserDTO updateUser)
         {
-            var usuario = await _context.Usuarios.FindAsync(userId);
-            var nuevoRol = await _context.Rols.FindAsync(newRoleId);
+            var usuario = await _context.Usuarios.FindAsync(updateUser.Id);
 
-            if (usuario == null || nuevoRol == null)
+            if (usuario == null)
                 return false;
 
-            usuario.RolId = newRoleId;
+            usuario.Nombre = updateUser.Nombre;
+            usuario.Correo = updateUser.Correo;
+
+            // Usar directamente el rolId enviado
+            usuario.RolId = updateUser.RolId;
+
             await _context.SaveChangesAsync();
             return true;
         }
+
+
 
         // Eliminar un usuario (eliminación lógica)
         public async Task<bool> DeleteUser(int userId)

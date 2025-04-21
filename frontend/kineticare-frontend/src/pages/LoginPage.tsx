@@ -32,7 +32,7 @@ function LoginPage() {
       setLoginError("");
 
       // Redirigir al dashboard o ruta protegida
-      navigate("/dashboard");
+      navigate("/home");
     } catch (error: any) {
       setLoginError("Credenciales incorrectas o error de conexión.");
     }

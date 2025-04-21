@@ -22,8 +22,8 @@ namespace MSGestionDeUsuariosySeguridad.Interfaces
         // Método para obtener un usuario por correo
         Task<UsuarioDTO> GetUserByEmail(string email);
 
-        // Método para modificación de roles 
-        Task<bool> UpdateUserRole(int userId, int newRoleId);
+        // Método para editar usuarios
+        Task<bool> UpdateUser(EditUserDTO dto);
 
         // Método para eliminar un usuario
         Task<bool> DeleteUser(int userId);

@@ -28,7 +28,7 @@ namespace MSGestionDeUsuariosySeguridad.Controllers
         }
 
         [HttpPost("logout")]
-        [Authorize] 
+        //[Authorize] 
         public async Task<IActionResult> Logout()
         {
             var token = HttpContext.Request.Headers["Authorization"].ToString();
@@ -94,11 +94,11 @@ namespace MSGestionDeUsuariosySeguridad.Controllers
         }
 
         /// Modificar el rol de un usuario (solo administradores)
-        [HttpPut("rol")]
-        [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> UpdateUserRole([FromQuery] int userId, [FromQuery] int newRoleId)
+        [HttpPut("edit")]
+        //[Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> UpdateUserRole(EditUserDTO newUser)
         {
-            var resultado = await _authService.UpdateUserRole(userId, newRoleId);
+            var resultado = await _authService.UpdateUser(newUser);
             if (!resultado)
                 return BadRequest(new { mensaje = "Usuario o rol no válido." });
 

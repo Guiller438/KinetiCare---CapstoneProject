@@ -79,8 +79,8 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      // Modificar el rol de un usuario
-      "DownstreamPathTemplate": "/api/auth/rol?userId={userId}&newRoleId={newRoleId}",
+      // Editar usuario
+      "DownstreamPathTemplate": "/api/auth/edit",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -88,7 +88,7 @@
           "Port": 7001
         }
       ],
-      "UpstreamPathTemplate": "/api/auth/rol",
+      "UpstreamPathTemplate": "/api/auth/edit",
       "UpstreamHttpMethod": [ "PUT" ]
     },
     {
