@@ -1,12 +1,10 @@
 ﻿namespace MSEvaluacionyDiagnostico.DTOs
 {
-    public class RespuestaDTO
+    public class CrearRespuestaDTO
     {
-        public int Id { get; set; }
         public int EvaluacionId { get; set; }
         public int PacienteId { get; set; }
         public int PreguntaId { get; set; }
         public string Valor { get; set; } = null!;
-        public string? Sentimiento { get; set; }
     }
 }
