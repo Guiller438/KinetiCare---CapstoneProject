@@ -27,8 +27,11 @@ function LoginPage() {
       });
 
       const token = response.data.token;
+      const rolName = response.data.rol;
 
       localStorage.setItem("token", token);
+      localStorage.setItem("rol", rolName); // <--- debe ser el nombre del rol
+
       setLoginError("");
 
       // Redirigir al dashboard o ruta protegida
