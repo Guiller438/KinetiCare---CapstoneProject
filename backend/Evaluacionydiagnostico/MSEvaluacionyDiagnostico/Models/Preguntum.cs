@@ -9,11 +9,4 @@ public partial class Preguntum
 
     public string Texto { get; set; } = null!;
 
-    public int TipoPreguntaId { get; set; }
-
-    public bool? Obligatoria { get; set; }
-
-    public virtual ICollection<Respuestum> Respuesta { get; set; } = new List<Respuestum>();
-
-    public virtual TipoPreguntum TipoPregunta { get; set; } = null!;
 }

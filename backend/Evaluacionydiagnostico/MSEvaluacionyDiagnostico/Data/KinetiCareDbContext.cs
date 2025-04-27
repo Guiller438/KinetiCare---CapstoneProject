@@ -30,8 +30,6 @@ public partial class KinetiCareDbContext : DbContext
 
     public virtual DbSet<Rol> Rols { get; set; }
 
-    public virtual DbSet<TipoPreguntum> TipoPregunta { get; set; }
-
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -96,34 +94,44 @@ public partial class KinetiCareDbContext : DbContext
 
         modelBuilder.Entity<Preguntum>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Pregunta__3214EC076E1D0F06");
+            entity.HasKey(e => e.Id);
 
-            entity.Property(e => e.Obligatoria).HasDefaultValue(true);
-            entity.Property(e => e.Texto).HasMaxLength(255);
+            entity.ToTable("Pregunta");
 
-            entity.HasOne(d => d.TipoPregunta).WithMany(p => p.Pregunta)
-                .HasForeignKey(d => d.TipoPreguntaId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Pregunta__TipoPr__619B8048");
+            entity.Property(e => e.Texto)
+                .HasMaxLength(255)
+                .IsRequired();
         });
 
         modelBuilder.Entity<Respuestum>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Respuest__3214EC07B227F81B");
+            entity.HasKey(e => e.Id);
 
-            entity.Property(e => e.Valor).HasMaxLength(255);
-            entity.Property(e => e.Sentimiento).HasMaxLength(15).IsUnicode(false);
+            entity.ToTable("Respuesta");
 
+            entity.Property(e => e.Valor)
+                .HasMaxLength(255)
+                .IsRequired();
 
-            entity.HasOne(d => d.Evaluacion).WithMany(p => p.Respuesta)
+            entity.Property(e => e.Sentimiento)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Evaluacion)
+                .WithMany(p => p.Respuesta)
                 .HasForeignKey(d => d.EvaluacionId)
-                .HasConstraintName("FK__Respuesta__Evalu__6477ECF3");
+                .HasConstraintName("FK_Respuesta_Evaluacion");
 
-            entity.HasOne(d => d.Pregunta).WithMany(p => p.Respuesta)
+            entity.HasOne(d => d.Paciente)
+                .WithMany(p => p.Respuestas)
+                .HasForeignKey(d => d.PacienteId)
+                .HasConstraintName("FK_Respuesta_Paciente");
+
+            entity.HasOne(d => d.Preguntum)
+                .WithMany()
                 .HasForeignKey(d => d.PreguntaId)
-                .HasConstraintName("FK__Respuesta__Pregu__656C112C");
+                .HasConstraintName("FK_Respuesta_Pregunta");
         });
-
         modelBuilder.Entity<ResumenEvolutivo>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__ResumenE__3214EC07407AB7D7");
@@ -150,14 +158,6 @@ public partial class KinetiCareDbContext : DbContext
             entity.ToTable("Rol");
 
             entity.Property(e => e.Descripcion).HasMaxLength(250);
-            entity.Property(e => e.Nombre).HasMaxLength(50);
-        });
-
-        modelBuilder.Entity<TipoPreguntum>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__TipoPreg__3214EC075A1164A3");
-
-            entity.Property(e => e.Descripcion).HasMaxLength(255);
             entity.Property(e => e.Nombre).HasMaxLength(50);
         });
 

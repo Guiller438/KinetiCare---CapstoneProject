@@ -27,8 +27,8 @@ public partial class Paciente
 
 
     public virtual ICollection<Evaluacion> Evaluacions { get; set; } = new List<Evaluacion>();
-
     public virtual Usuario? Fisioterapeuta { get; set; }
-
     public virtual ICollection<ResumenEvolutivo> ResumenEvolutivos { get; set; } = new List<ResumenEvolutivo>();
+    public ICollection<Respuestum> Respuestas { get; set; } = new List<Respuestum>();
+
 }
