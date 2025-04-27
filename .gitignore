@@ -13,8 +13,6 @@
 *.log
 *.tlog
 *.pdb
-*.suo
-*.sln.docstates
 *.orig
 *.bak
 *.old
@@ -59,3 +57,28 @@ build/
 .env
 .env.local
 .env.*.local
+
+########################################
+# Python y FastAPI microservicio
+########################################
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.pickle
+*.log
+*.tmp
+*.sqlite3
+.env/
+.env.*
+.venv/
+venv/
+ENV/
+env/
+instance/
+.mypy_cache/
+.pytest_cache/
+coverage.xml
+*.cover
+htmlcov/
