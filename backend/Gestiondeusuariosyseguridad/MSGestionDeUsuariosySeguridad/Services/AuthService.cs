@@ -208,6 +208,25 @@ namespace MSGestionDeUsuariosySeguridad.Services
             return true;
         }
 
+        // Obtener lista de fisioterapeutas
+
+        public async Task<List<UsuarioDTO>> GetPhysiotherapists()
+        {
+            var fisioterapeutas = await _context.Usuarios
+                .Include(u => u.Rol)
+                .Where(u => u.Rol.Nombre == "Fisioterapeuta" && u.Activo == true)
+                .Select(u => new UsuarioDTO
+                {
+                    Id = u.Id,
+                    Nombre = u.Nombre,
+                    Correo = u.Correo,
+                    RolName = u.Rol.Nombre,
+                    Activo = u.Activo
+                })
+                .ToListAsync();
+            return fisioterapeutas;
+        }
+
 
 
         // Eliminar un usuario (eliminación lógica)

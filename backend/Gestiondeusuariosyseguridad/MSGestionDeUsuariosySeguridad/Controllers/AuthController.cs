@@ -105,6 +105,17 @@ namespace MSGestionDeUsuariosySeguridad.Controllers
             return Ok(new { mensaje = "Rol actualizado correctamente." });
         }
 
+        // Obtener lista de fisioterapeutas 
+
+        [HttpGet("fisioterapeutas")]
+
+        public async Task<IActionResult> GetPhysiotherapists()
+        {
+            var fisioterapeutas = await _authService.GetPhysiotherapists();
+            return Ok(fisioterapeutas);
+        }
+
+
         /// Eliminar un usuario (solo administradores)
         [HttpDelete("{userId}")]
         //[Authorize(Roles = "Administrador")]

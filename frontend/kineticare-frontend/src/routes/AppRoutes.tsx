@@ -4,10 +4,13 @@ import ResetPasswordPage from "../pages/ResetPasswordPage";
 import HomePage from "../pages/HomePage"; 
 import AdminUsuariosPage from "../pages/AdminUsuariosPage";
 import NoAutorizado from "../pages/NoAutorizado";
+import EvaluacionPage from "../pages/MenuEvaluacion";
+import NuevaEvaluacionPage from "../pages/NuevaEvaluacionPage";
 
 import ProtectedRoute from "../components/ProtectedRoute";
 
 import { Routes, Route } from "react-router-dom";
+import NuevoPacientePage from "../pages/nuevoPacientePage";
 
 const AppRoutes = () => {
   return (
@@ -18,6 +21,11 @@ const AppRoutes = () => {
       <Route path="/reset-password" element={<ResetPasswordPage />} />
       <Route path="/no-autorizado" element={<NoAutorizado />} />
       <Route path="/home" element={<HomePage />} />
+      <Route path="/menuevaluacion" element={<EvaluacionPage />} />
+      <Route path="/evaluaciones/nueva" element={<NuevaEvaluacionPage />} />
+      <Route path="/evaluaciones/crearPaciente" element={<NuevoPacientePage />} />
+
+      {/* Rutas de error */}
 
       {/* Rutas protegidas */}
 {/*      <Route 

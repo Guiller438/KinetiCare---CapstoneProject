@@ -56,7 +56,7 @@ function HomePage() {
       titulo: "Evaluaciones",
       descripcion: "Registra y consulta evaluaciones fisioterapéuticas.",
       icono: <FaClipboardList size={40} className="text-udla-red" />,
-      path: "/evaluaciones", // Asegúrate de que esta ruta exista
+      path: "/menuevaluacion", // Asegúrate de que esta ruta exista
     },
     {
       titulo: "Cerrar sesión",

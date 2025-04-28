@@ -28,6 +28,9 @@ namespace MSGestionDeUsuariosySeguridad.Interfaces
         // Método para eliminar un usuario
         Task<bool> DeleteUser(int userId);
 
+        //Método para obtener lista de fisioterapeutas
+        Task<List<UsuarioDTO>> GetPhysiotherapists();
+
 
 
     }

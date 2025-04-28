@@ -66,6 +66,19 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
+      // Obtener todos los fisioterapeutas
+      "DownstreamPathTemplate": "/api/auth/fisioterapeutas",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7001
+        }
+      ],
+      "UpstreamPathTemplate": "/api/auth/fisioterapeutas",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
       // Obtener usuario por correo
       "DownstreamPathTemplate": "/api/auth/usuario?email={email}",
       "DownstreamScheme": "http",
@@ -102,6 +115,204 @@
         }
       ],
       "UpstreamPathTemplate": "/api/auth/{userId}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    {
+      // Crear múltiples preguntas
+      "DownstreamPathTemplate": "/api/cuestionario/crearPreguntas",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7003
+
+        }
+      ],
+      "UpstreamPathTemplate": "/api/cuestionario/crearPreguntas",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      // Obtener todas las preguntas
+      "DownstreamPathTemplate": "/api/cuestionario/obtenerPreguntas",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7003
+
+        }
+      ],
+      "UpstreamPathTemplate": "/api/cuestionario/obtenerPreguntas",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      // Obtener pregunta por ID
+      "DownstreamPathTemplate": "/api/cuestionario/obtenerPreguntaPorId/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7003
+        }
+      ],
+      "UpstreamPathTemplate": "/api/cuestionario/obtenerPreguntaPorId/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      // Eliminar pregunta
+      "DownstreamPathTemplate": "/api/cuestionario/eliminarPregunta/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7003
+        }
+      ],
+      "UpstreamPathTemplate": "/api/cuestionario/eliminarPregunta/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    {
+      // Crear una respuesta
+      "DownstreamPathTemplate": "/api/cuestionario/crearRespuesta",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7003
+        }
+      ],
+      "UpstreamPathTemplate": "/api/cuestionario/crearRespuesta",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      // Obtener respuestas por evaluación
+      "DownstreamPathTemplate": "/api/cuestionario/obtenerRespuestasPorEvaluacion/{evaluacionId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7003
+
+        }
+      ],
+      "UpstreamPathTemplate": "/api/cuestionario/obtenerRespuestasPorEvaluacion/{evaluacionId}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      // Crear múltiples respuestas
+      "DownstreamPathTemplate": "/api/cuestionario/crearMultiplesRespuestas",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7003
+        }
+      ],
+      "UpstreamPathTemplate": "/api/cuestionario/crearMultiplesRespuestas",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      // Obtener todos los pacientes
+      "DownstreamPathTemplate": "/api/paciente/obtenerPacientes",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7003
+        }
+      ],
+      "UpstreamPathTemplate": "/api/paciente/obtenerPacientes",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      // Obtener paciente por ID
+      "DownstreamPathTemplate": "/api/paciente/pacienteporid/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7003
+        }
+      ],
+      "UpstreamPathTemplate": "/api/paciente/pacienteporid/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      // Obtener pacientes por fisioterapeuta
+      "DownstreamPathTemplate": "/api/paciente/pacienteporfisioterapeuta/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7003
+        }
+      ],
+      "UpstreamPathTemplate": "/api/paciente/pacienteporfisioterapeuta/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      // Buscar pacientes por nombre
+      "DownstreamPathTemplate": "/api/paciente/buscarpornombre",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7003
+        }
+      ],
+      "UpstreamPathTemplate": "/api/paciente/buscarpornombre",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      // Buscar pacientes por diagnóstico
+      "DownstreamPathTemplate": "/api/paciente/pacientepordiagnostico/{diagnostico}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7003
+        }
+      ],
+      "UpstreamPathTemplate": "/api/paciente/pacientepordiagnostico/{diagnostico}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      // Crear nuevo paciente
+      "DownstreamPathTemplate": "/api/paciente/crearPaciente",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7003
+        }
+      ],
+      "UpstreamPathTemplate": "/api/paciente/crearPaciente",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      // Actualizar paciente
+      "DownstreamPathTemplate": "/api/paciente/actualizarPaciente/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7003
+        }
+      ],
+      "UpstreamPathTemplate": "/api/paciente/actualizarPaciente/{id}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      // Eliminar paciente
+      "DownstreamPathTemplate": "/api/paciente/eliminarPaciente/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7003
+        }
+      ],
+      "UpstreamPathTemplate": "/api/paciente/eliminarPaciente/{id}",
       "UpstreamHttpMethod": [ "DELETE" ]
     }
   ]
