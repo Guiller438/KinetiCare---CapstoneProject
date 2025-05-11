@@ -314,6 +314,30 @@
       ],
       "UpstreamPathTemplate": "/api/paciente/eliminarPaciente/{id}",
       "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/astra/stream-rgb-mjpeg",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8005
+        }
+      ],
+      "UpstreamPathTemplate": "/api/astra/stream-rgb",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/astra/stream-depth-mjpeg",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8005
+        }
+      ],
+      "UpstreamPathTemplate": "/api/astra/stream-depth",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ]
 }
