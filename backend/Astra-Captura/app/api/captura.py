@@ -48,6 +48,12 @@ def stream_depth_mjpeg():
                 break
     return StreamingResponse(generate(), media_type="multipart/x-mixed-replace; boundary=frame")
 
+    ##Ruta de cierre de todos los dispositivos
+@router.get("/close", summary="Cerrar todos los dispositivos")
+def close():
+    if astra_service is None:
+        return Response(content="❌ No hay dispositivos abiertos", status_code=503)
+
 
     try:
         frame = astra_service.get_depth_frame()

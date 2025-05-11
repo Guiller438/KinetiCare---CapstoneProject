@@ -3,6 +3,34 @@ import cv2
 import numpy as np
 from datetime import datetime
 from primesense import openni2
+import win32com.client
+
+def release_all_cameras(max_index=5):
+    print("🔧 Cerrando posibles cámaras abiertas antes de iniciar...")
+    for i in range(max_index):
+        cap = cv2.VideoCapture(i)
+        if cap.isOpened():
+            cap.release()
+            print(f"🔒 Cámara en índice {i} liberada.")
+    cv2.destroyAllWindows()
+
+def find_astra_camera_index():
+    print("🔍 Buscando cámaras disponibles con WMI...")
+    system_devices = win32com.client.Dispatch("WbemScripting.SWbemLocator")
+    services = system_devices.ConnectServer(".", "root\\cimv2")
+    devices = services.ExecQuery("SELECT * FROM Win32_PnPEntity WHERE Name LIKE '%camera%'")
+
+    for i in range(5):  # Intentar abrir hasta 5 cámaras
+        cap = cv2.VideoCapture(i)
+        if cap.isOpened():
+            for device in devices:
+                if "astra" in device.Name.lower():
+                    print(f"🎯 Cámara Astra detectada: '{device.Name}' en índice {i}")
+                    cap.release()
+                    return i
+            cap.release()
+    print("❌ No se encontró cámara Astra por nombre con WMI.")
+    return None
 
 class AstraCameraService:
     def __init__(self, openni_path=r"C:\Orbecc\OpenNI_2.3.0.86_202210111950_4c8f5aa4_beta6_windows\OpenNI_2.3.0.86_202210111950_4c8f5aa4_beta6_windows\samples\bin"):
@@ -32,17 +60,23 @@ class AstraCameraService:
             else:
                 raise ValueError("❌ Stream RGB OpenNI2 es None.")
         except Exception as e:
-            print(f"⚠️ OpenNI2 RGB falló. Intentando usar cámara OpenCV...")
+            print("⚠️ OpenNI2 RGB falló. Intentando usar cámara OpenCV...")
             self.cv2_rgb_camera = None
-            for i in range(2):  # Probar primeros 2 índices
-                cam = cv2.VideoCapture(i)
-                if cam.isOpened():
-                    self.cv2_rgb_camera = cam
+            astra_index = find_astra_camera_index()
+            if astra_index is not None:
+                temp_cam = cv2.VideoCapture(astra_index)
+                ret, _ = temp_cam.read()
+                if ret:
+                    self.cv2_rgb_camera = temp_cam
                     self.rgb_available = True
                     self.using_cv2_camera = True
-                    print(f"✅ Cámara RGB abierta con OpenCV en índice {i}.")
-                    break
-            if self.cv2_rgb_camera is None:
+                    print(f"✅ Cámara Astra abierta con OpenCV en índice {astra_index}.")
+                else:
+                    temp_cam.release()
+                    self.rgb_available = False
+                    self.using_cv2_camera = False
+                    print("❌ Cámara Astra detectada pero no devuelve imagen.")
+            else:
                 self.rgb_available = False
                 self.using_cv2_camera = False
                 print("❌ No se pudo abrir ninguna cámara RGB con OpenCV.")
@@ -60,13 +94,12 @@ class AstraCameraService:
     def get_rgb_frame(self):
         if not self.rgb_available:
             raise RuntimeError("❌ RGB no disponible.")
-
         try:
             if self.using_cv2_camera:
                 ret, frame = self.cv2_rgb_camera.read()
                 if not ret:
                     raise RuntimeError("❌ Fallo al capturar frame con OpenCV.")
-                return frame  # BGR directo
+                return frame
             else:
                 frame = self.color_stream.read_frame()
                 data = frame.get_buffer_as_uint8()
@@ -96,7 +129,30 @@ class AstraCameraService:
         print(f"📸 Imagen guardada en: {filename}")
         return filename
 
-# Instancia global
+    def close(self):
+        if hasattr(self, "color_stream") and self.color_stream is not None:
+            try:
+                self.color_stream.stop()
+            except Exception:
+                pass
+        if hasattr(self, "depth_stream") and self.depth_stream is not None:
+            try:
+                self.depth_stream.stop()
+            except Exception:
+                pass
+        if hasattr(self, "cv2_rgb_camera") and self.cv2_rgb_camera is not None:
+            try:
+                self.cv2_rgb_camera.release()
+            except Exception:
+                pass
+        try:
+            openni2.unload()
+        except Exception:
+            pass
+        print("🔒 Recursos de AstraCameraService liberados.")
+
+release_all_cameras()
+
 try:
     astra_service = AstraCameraService()
 except RuntimeError as e:
