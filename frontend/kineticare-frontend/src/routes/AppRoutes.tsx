@@ -6,6 +6,7 @@ import AdminUsuariosPage from "../pages/AdminUsuariosPage";
 import NoAutorizado from "../pages/NoAutorizado";
 import EvaluacionPage from "../pages/MenuEvaluacion";
 import NuevaEvaluacionPage from "../pages/NuevaEvaluacionPage";
+import TomaDeDatos from "../pages/TomaDeDatosClinicosPage";
 
 import ProtectedRoute from "../components/ProtectedRoute";
 
@@ -24,6 +25,7 @@ const AppRoutes = () => {
       <Route path="/menuevaluacion" element={<EvaluacionPage />} />
       <Route path="/evaluaciones/nueva" element={<NuevaEvaluacionPage />} />
       <Route path="/evaluaciones/crearPaciente" element={<NuevoPacientePage />} />
+      <Route path="/tomaDatosClinicos" element={<TomaDeDatos />} />
 
       {/* Rutas de error */}
 

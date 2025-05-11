@@ -65,7 +65,7 @@ const MenuEvaluacionPage = () => {
 
           {/* Toma de Datos Clínicos */}
           <div
-            onClick={() => manejarSeleccion("/evaluaciones/toma-datos")}
+            onClick={() => manejarSeleccion("/tomaDatosClinicos")}
             className="cursor-pointer bg-white shadow-lg rounded-2xl p-6 w-64 text-center hover:shadow-2xl transition"
           >
             <FaHeartbeat className="text-5xl mx-auto text-rose-700 mb-4" />

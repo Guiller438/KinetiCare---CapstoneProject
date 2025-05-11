@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+numpy
+open3d
+opencv-python
+primesense
+opencv-python
+openni
