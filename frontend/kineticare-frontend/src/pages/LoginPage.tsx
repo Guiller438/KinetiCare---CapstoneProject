@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import api from "../services/api";
 import { useNavigate } from "react-router-dom";
-
+import { jwtDecode } from "jwt-decode"; // ✅ Agregado
 
 type LoginFormInputs = {
   correo: string;
@@ -29,8 +29,15 @@ function LoginPage() {
       const token = response.data.token;
       const rolName = response.data.rol;
 
+      // ✅ Decodificar el token para obtener el usuarioId
+      const decoded: any = jwtDecode(token);
+      const usuarioId =
+        decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+
+      // ✅ Guardar en localStorage
       localStorage.setItem("token", token);
       localStorage.setItem("rol", rolName); // <--- debe ser el nombre del rol
+      localStorage.setItem("usuarioId", usuarioId); // <--- debe ser el id del usuario
 
       setLoginError("");
 

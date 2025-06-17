@@ -214,7 +214,7 @@ namespace MSGestionDeUsuariosySeguridad.Services
         {
             var fisioterapeutas = await _context.Usuarios
                 .Include(u => u.Rol)
-                .Where(u => u.Rol.Nombre == "Fisioterapeuta" && u.Activo == true)
+                .Where(u => u.Rol.Nombre != "Paciente" && u.Activo == true)
                 .Select(u => new UsuarioDTO
                 {
                     Id = u.Id,

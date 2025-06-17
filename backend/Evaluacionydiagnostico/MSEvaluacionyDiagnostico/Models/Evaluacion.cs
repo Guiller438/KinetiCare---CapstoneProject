@@ -26,4 +26,6 @@ public partial class Evaluacion
     public virtual ICollection<Respuestum> Respuesta { get; set; } = new List<Respuestum>();
 
     public virtual ICollection<ResumenEvolutivo> ResumenEvolutivos { get; set; } = new List<ResumenEvolutivo>();
+
+    public virtual ICollection<Seguimiento> Seguimientos { get; set; } = new List<Seguimiento>();
 }

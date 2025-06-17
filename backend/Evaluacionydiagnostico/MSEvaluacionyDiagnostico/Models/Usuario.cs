@@ -24,4 +24,6 @@ public partial class Usuario
     public virtual ICollection<Paciente> Pacientes { get; set; } = new List<Paciente>();
 
     public virtual Rol? Rol { get; set; }
+
+    public virtual ICollection<Seguimiento> Seguimientos { get; set; } = new List<Seguimiento>();
 }

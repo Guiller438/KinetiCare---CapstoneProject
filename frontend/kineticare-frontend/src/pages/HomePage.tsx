@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaUserCog, FaUnlockAlt, FaSignOutAlt, FaClipboardList } from "react-icons/fa";
+import {
+  FaUserCog,
+  FaUnlockAlt,
+  FaSignOutAlt,
+  FaClipboardList,
+  FaClock,
+  FaCalendarAlt, // 👈 nuevo ícono
+} from "react-icons/fa";
 import adminIcon from "../assets/GestionDeUsuarios.png";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -13,12 +20,15 @@ function HomePage() {
   const [vistaAdmin, setVistaAdmin] = useState(true);
   const [rol, setRol] = useState<string | null>(null);
 
+  const userId = localStorage.getItem("usuarioId") || "1";
+  const tipo = (localStorage.getItem("tipo") as "Usuario" | "Paciente") || "Usuario";
+
   useEffect(() => {
     const rolGuardado = localStorage.getItem("rol");
     setRol(rolGuardado);
 
     if (rolGuardado !== "Administrador") {
-      setVistaAdmin(false); // Solo admins pueden ver la vista admin
+      setVistaAdmin(false);
     }
   }, []);
 
@@ -42,6 +52,10 @@ function HomePage() {
       );
 
       localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("tipo");
+      localStorage.removeItem("rol");
+
       toast.info("Has cerrado sesión correctamente");
       navigate("/");
     } catch (error) {
@@ -56,7 +70,19 @@ function HomePage() {
       titulo: "Evaluaciones",
       descripcion: "Registra y consulta evaluaciones fisioterapéuticas.",
       icono: <FaClipboardList size={40} className="text-udla-red" />,
-      path: "/menuevaluacion", // Asegúrate de que esta ruta exista
+      path: "/menuevaluacion",
+    },
+    {
+      titulo: "Gestionar mi disponibilidad",
+      descripcion: "Establece tus horarios de atención semanales.",
+      icono: <FaClock size={40} className="text-udla-red" />,
+      path: "/disponibilidad",
+    },
+    {
+      titulo: "Agendar cita",
+      descripcion: "Selecciona horario y paciente para registrar una nueva cita.",
+      icono: <FaCalendarAlt size={40} className="text-udla-red" />,
+      path: "/agendar-cita", // Cambia esta ruta si tienes otra definida
     },
     {
       titulo: "Cerrar sesión",
@@ -83,7 +109,13 @@ function HomePage() {
     {
       titulo: "Gestión administrativa",
       descripcion: "Control y monitoreo de todos los usuarios registrados.",
-      icono: <img src={adminIcon} alt="Gestión administrativa" className="h-20 w-15" />,
+      icono: (
+        <img
+          src={adminIcon}
+          alt="Gestión administrativa"
+          className="h-20 w-15"
+        />
+      ),
       path: "/usuarios",
     },
     {
@@ -96,7 +128,7 @@ function HomePage() {
 
   return (
     <div className="min-h-screen bg-udla-light flex flex-col">
-      <Header />
+      <Header userId={userId} tipo={tipo} />
 
       <main className="flex-grow flex flex-col items-center px-4 py-10">
         <h1 className="text-3xl font-bold text-udla-red mb-10">
@@ -105,7 +137,9 @@ function HomePage() {
 
         {rol === "Administrador" && (
           <div className="flex items-center gap-4 mb-8">
-            <span className="text-gray-700 font-medium">Gestión Fisioterapéutica</span>
+            <span className="text-gray-700 font-medium">
+              Gestión Fisioterapéutica
+            </span>
             <Switch
               onChange={() => setVistaAdmin(!vistaAdmin)}
               checked={vistaAdmin}
@@ -114,7 +148,9 @@ function HomePage() {
               onColor="#9c0720"
               offColor="#ccc"
             />
-            <span className="text-gray-700 font-medium">Gestión Administrativa</span>
+            <span className="text-gray-700 font-medium">
+              Gestión Administrativa
+            </span>
           </div>
         )}
 
@@ -132,7 +168,9 @@ function HomePage() {
               className="bg-white shadow-md rounded-xl p-6 flex flex-col items-center text-center cursor-pointer hover:shadow-lg transition"
             >
               {opcion.icono}
-              <h2 className="text-xl font-semibold mt-4 mb-2 text-udla-red">{opcion.titulo}</h2>
+              <h2 className="text-xl font-semibold mt-4 mb-2 text-udla-red">
+                {opcion.titulo}
+              </h2>
               <p className="text-gray-600 text-sm">{opcion.descripcion}</p>
             </div>
           ))}

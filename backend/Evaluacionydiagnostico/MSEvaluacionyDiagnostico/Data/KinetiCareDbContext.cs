@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using MSEvaluacionyDiagnostico.Models;
 using Microsoft.EntityFrameworkCore;
+using MSEvaluacionyDiagnostico.Models;
 
 namespace MSEvaluacionyDiagnostico.Data;
 
@@ -24,16 +24,21 @@ public partial class KinetiCareDbContext : DbContext
 
     public virtual DbSet<Preguntum> Pregunta { get; set; }
 
+    public virtual DbSet<RespuestaSeguimiento> RespuestaSeguimientos { get; set; }
+
     public virtual DbSet<Respuestum> Respuesta { get; set; }
 
     public virtual DbSet<ResumenEvolutivo> ResumenEvolutivos { get; set; }
 
     public virtual DbSet<Rol> Rols { get; set; }
 
+    public virtual DbSet<Seguimiento> Seguimientos { get; set; }
+
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=DefaultConnection");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-SO7UMP1\\SQLEXPRESS;Initial Catalog=KinetiCareDB;Integrated Security=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -94,44 +99,50 @@ public partial class KinetiCareDbContext : DbContext
 
         modelBuilder.Entity<Preguntum>(entity =>
         {
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.Id).HasName("PK__Pregunta__3214EC07D17474DB");
+        });
 
-            entity.ToTable("Pregunta");
+        modelBuilder.Entity<RespuestaSeguimiento>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Respuest__3214EC07E1FE9084");
 
-            entity.Property(e => e.Texto)
-                .HasMaxLength(255)
-                .IsRequired();
+            entity.ToTable("RespuestaSeguimiento");
+
+            entity.Property(e => e.Sentimiento).HasMaxLength(50);
+
+            entity.HasOne(d => d.Pregunta).WithMany(p => p.RespuestaSeguimientos)
+                .HasForeignKey(d => d.PreguntaId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Respuesta__Pregu__41EDCAC5");
+
+            entity.HasOne(d => d.Seguimiento).WithMany(p => p.RespuestaSeguimientos)
+                .HasForeignKey(d => d.SeguimientoId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Respuesta__Segui__40F9A68C");
         });
 
         modelBuilder.Entity<Respuestum>(entity =>
         {
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.Id).HasName("PK__Respuest__3214EC07480EBC6A");
 
-            entity.ToTable("Respuesta");
+            entity.Property(e => e.Sentimiento).HasMaxLength(50);
 
-            entity.Property(e => e.Valor)
-                .HasMaxLength(255)
-                .IsRequired();
-
-            entity.Property(e => e.Sentimiento)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-
-            entity.HasOne(d => d.Evaluacion)
-                .WithMany(p => p.Respuesta)
+            entity.HasOne(d => d.Evaluacion).WithMany(p => p.Respuesta)
                 .HasForeignKey(d => d.EvaluacionId)
-                .HasConstraintName("FK_Respuesta_Evaluacion");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Respuesta__Evalu__2EDAF651");
 
-            entity.HasOne(d => d.Paciente)
-                .WithMany(p => p.Respuestas)
+            entity.HasOne(d => d.Paciente).WithMany(p => p.Respuestas)
                 .HasForeignKey(d => d.PacienteId)
-                .HasConstraintName("FK_Respuesta_Paciente");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Respuesta__Pacie__2FCF1A8A");
 
-            entity.HasOne(d => d.Preguntum)
-                .WithMany()
+            entity.HasOne(d => d.Pregunta).WithMany(p => p.Respuesta)
                 .HasForeignKey(d => d.PreguntaId)
-                .HasConstraintName("FK_Respuesta_Pregunta");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Respuesta__Pregu__30C33EC3");
         });
+
         modelBuilder.Entity<ResumenEvolutivo>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__ResumenE__3214EC07407AB7D7");
@@ -159,6 +170,30 @@ public partial class KinetiCareDbContext : DbContext
 
             entity.Property(e => e.Descripcion).HasMaxLength(250);
             entity.Property(e => e.Nombre).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<Seguimiento>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Seguimie__3214EC07E5D8FB76");
+
+            entity.ToTable("Seguimiento");
+
+            entity.Property(e => e.Fecha)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.ValorX).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.ValorY).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.ValorZ).HasColumnType("decimal(10, 2)");
+
+            entity.HasOne(d => d.Evaluacion).WithMany(p => p.Seguimientos)
+                .HasForeignKey(d => d.EvaluacionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Seguimien__Evalu__3D2915A8");
+
+            entity.HasOne(d => d.Usuario).WithMany(p => p.Seguimientos)
+                .HasForeignKey(d => d.UsuarioId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Seguimien__Usuar__3E1D39E1");
         });
 
         modelBuilder.Entity<Usuario>(entity =>

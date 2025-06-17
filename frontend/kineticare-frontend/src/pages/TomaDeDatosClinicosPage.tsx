@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import {
   FaCheckCircle,
@@ -10,13 +11,12 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 
 const TomaDatosClinicosPage = () => {
+  const location = useLocation();
+  const { pacienteNombre = "Paciente desconocido" } = location.state || {};
+
   const [expandedView, setExpandedView] = useState<"kinect" | "astra" | "both" | null>(null);
   const [modoAstra, setModoAstra] = useState<"rgb" | "depth">("rgb");
-
-  const paciente = {
-    nombre: "Juan Pérez",
-    diagnostico: "Lesión en rodilla derecha - Evaluación en curso",
-  };
+  const [imagenKinectURL, setImagenKinectURL] = useState("");
 
   const kinectInfo = {
     estado: "Conectado",
@@ -29,6 +29,16 @@ const TomaDatosClinicosPage = () => {
     fps: 30,
     resolucion: "1280x720",
   };
+
+  // 🔁 Refrescar imagen Kinect cada 150ms
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const timestamp = new Date().getTime();
+      setImagenKinectURL(`http://192.168.200.9:59402/api/joints/render?t=${timestamp}`);
+    }, 10);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleCaptura = async () => {
     try {
@@ -51,45 +61,45 @@ const TomaDatosClinicosPage = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
-
       <main className="flex-grow container mx-auto px-4 py-6 relative">
-        <div className="text-center mb-3">
-          <h1 className="inline text-3xl font-bold text-rose-700 mr-2">
-            Toma de Datos Clínicos
-          </h1>
-          <span className="inline text-gray-500 italic text-sm">
+
+        {/* Título */}
+        <div className="text-center mb-6">
+          <h1 className="text-3xl font-bold text-rose-700">Toma de Datos Clínicos</h1>
+          <p className="text-sm text-gray-500 mt-1">
             Visualización en tiempo real de datos capturados por sensores de movimiento.
-          </span>
+          </p>
         </div>
 
-        <section className="mb-4 text-sm text-gray-700 flex flex-col sm:flex-row justify-between items-center gap-1 px-2">
-          <span><strong>👤</strong> {paciente.nombre}</span>
-          <span><strong>🧾</strong> {paciente.diagnostico}</span>
+        {/* Ficha paciente */}
+        <section className="bg-white border border-gray-200 rounded-xl shadow-sm px-4 py-3 mb-6 flex items-center gap-3 max-w-lg mx-auto">
+          <span className="text-2xl text-rose-600">👤</span>
+          <div>
+            <p className="text-lg font-semibold text-gray-800">{pacienteNombre}</p>
+            <p className="text-sm text-gray-500">Paciente en evaluación</p>
+          </div>
         </section>
 
-        <div className="flex justify-center mb-4">
+        {/* Botones */}
+        <div className="flex flex-col sm:flex-row justify-center gap-4 mb-6">
           <button
             onClick={handleCaptura}
             className="bg-emerald-600 text-white px-6 py-2 rounded-full shadow hover:bg-emerald-700 transition"
           >
             Capturar Imagen RGB y Profundidad
           </button>
+          <button
+            onClick={() => setExpandedView("both")}
+            className="bg-rose-600 text-white px-6 py-2 rounded-full shadow hover:bg-rose-700 transition"
+          >
+            Ver ambas cámaras en pantalla completa
+          </button>
         </div>
 
-        {expandedView === null && (
-          <div className="flex justify-center mb-6">
-            <button
-              onClick={() => setExpandedView("both")}
-              className="bg-rose-600 text-white px-6 py-2 rounded-full shadow hover:bg-rose-700 transition"
-            >
-              Ver ambas cámaras en pantalla completa
-            </button>
-          </div>
-        )}
-
-        <section className="grid md:grid-cols-2 gap-4">
+        {/* Cámaras */}
+        <section className="grid md:grid-cols-2 gap-6">
           {/* Kinect */}
-          <div className="bg-white rounded-xl shadow-md p-3 relative w-full">
+          <div className="bg-white rounded-xl shadow-md p-4 relative w-full">
             <button
               onClick={() => setExpandedView("kinect")}
               className="absolute top-2 right-2 bg-white p-2 rounded-full shadow hover:bg-gray-200"
@@ -97,19 +107,19 @@ const TomaDatosClinicosPage = () => {
             >
               <FaExpand className="text-gray-700" />
             </button>
-            <h3 className="text-center text-base font-semibold text-rose-700 mb-2">
+            <h3 className="text-center text-lg font-semibold text-rose-700 mb-3">
               🎥 Cámara Kinect Azure
             </h3>
-            <div className="rounded-md overflow-hidden aspect-video bg-black flex items-center justify-center text-white">
-              Stream Kinect (simulado)
+            <div className="rounded-md overflow-hidden aspect-video bg-black">
+              <img
+                src={imagenKinectURL}
+                alt="Vista Kinect"
+                className="w-full h-full object-cover"
+              />
             </div>
-            <ul className="text-sm text-gray-600 space-y-1 mt-3 px-2">
+            <ul className="text-sm text-gray-600 space-y-1 mt-4 px-2">
               <li className="flex items-center gap-2">
-                {kinectInfo.estado === "Conectado" ? (
-                  <FaCheckCircle className="text-green-600" />
-                ) : (
-                  <FaTimesCircle className="text-red-600" />
-                )}
+                <FaCheckCircle className="text-green-600" />
                 <span>Estado: {kinectInfo.estado}</span>
               </li>
               <li className="flex items-center gap-2">
@@ -124,7 +134,7 @@ const TomaDatosClinicosPage = () => {
           </div>
 
           {/* Astra */}
-          <div className="bg-white rounded-xl shadow-md p-3 relative w-full">
+          <div className="bg-white rounded-xl shadow-md p-4 relative w-full">
             <button
               onClick={() => setExpandedView("astra")}
               className="absolute top-2 right-2 bg-white p-2 rounded-full shadow hover:bg-gray-200"
@@ -132,44 +142,45 @@ const TomaDatosClinicosPage = () => {
             >
               <FaExpand className="text-gray-700" />
             </button>
-            <h3 className="text-center text-base font-semibold text-rose-700 mb-2">
+            <h3 className="text-center text-lg font-semibold text-rose-700 mb-3">
               🎥 Cámara Astra
             </h3>
 
-            {/* Selector RGB / profundidad */}
-            <div className="flex justify-center gap-2 mb-2">
-              <button
-                onClick={() => setModoAstra("rgb")}
-                className={`px-4 py-1 rounded-full text-sm shadow ${
-                  modoAstra === "rgb" ? "bg-rose-600 text-white" : "bg-gray-200 text-gray-700"
-                }`}
-              >
-                RGB
-              </button>
-              <button
-                onClick={() => setModoAstra("depth")}
-                className={`px-4 py-1 rounded-full text-sm shadow ${
-                  modoAstra === "depth" ? "bg-rose-600 text-white" : "bg-gray-200 text-gray-700"
-                }`}
-              >
-                Profundidad
-              </button>
+            <div className="flex justify-center gap-3 mb-4">
+              <div className="bg-gray-100 rounded-full px-3 py-1 flex gap-2 shadow-inner">
+                <button
+                  onClick={() => setModoAstra("rgb")}
+                  className={`px-4 py-1 rounded-full text-sm font-medium transition ${
+                    modoAstra === "rgb"
+                      ? "bg-rose-600 text-white"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  }`}
+                >
+                  RGB
+                </button>
+                <button
+                  onClick={() => setModoAstra("depth")}
+                  className={`px-4 py-1 rounded-full text-sm font-medium transition ${
+                    modoAstra === "depth"
+                      ? "bg-rose-600 text-white"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  }`}
+                >
+                  Profundidad
+                </button>
+              </div>
             </div>
 
             <div className="rounded-md overflow-hidden aspect-video">
               <img
-                src={`http://localhost:8000/astra/stream-${modoAstra}-mjpeg`}
+                src={`http://localhost:8001/astra/stream-${modoAstra}-mjpeg`}
                 alt="Vista Cámara Astra"
                 className="w-full h-full object-cover"
               />
             </div>
-            <ul className="text-sm text-gray-600 space-y-1 mt-3 px-2">
+            <ul className="text-sm text-gray-600 space-y-1 mt-4 px-2">
               <li className="flex items-center gap-2">
-                {astraInfo.estado === "Conectado" ? (
-                  <FaCheckCircle className="text-green-600" />
-                ) : (
-                  <FaTimesCircle className="text-red-600" />
-                )}
+                <FaCheckCircle className="text-green-600" />
                 <span>Estado: {astraInfo.estado}</span>
               </li>
               <li className="flex items-center gap-2">
@@ -184,7 +195,7 @@ const TomaDatosClinicosPage = () => {
           </div>
         </section>
 
-        {/* Pantalla expandida */}
+        {/* Vista Expandida */}
         <AnimatePresence>
           {expandedView !== null && (
             <motion.div
@@ -216,49 +227,11 @@ const TomaDatosClinicosPage = () => {
                   <h3 className="text-center text-xl font-semibold text-rose-700 mb-4">
                     🎥 Cámara Kinect Azure
                   </h3>
-                  <div className="bg-black h-[540px] rounded-md flex items-center justify-center text-white">
-                    Stream Kinect (simulado)
-                  </div>
-                </motion.div>
-              )}
-
-              {expandedView === "astra" && (
-                <motion.div
-                  className="bg-white w-full max-w-5xl rounded-2xl shadow-lg p-6"
-                  initial={{ scale: 0.95, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.95, opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <h3 className="text-center text-xl font-semibold text-rose-700 mb-4">
-                    🎥 Cámara Astra
-                  </h3>
-                  <div className="rounded-md overflow-hidden h-[540px]">
+                  <div className="bg-black h-[540px] rounded-md overflow-hidden">
                     <img
-                      src={`http://localhost:8000/astra/stream-${modoAstra}-mjpeg`}
-                      alt="Vista Cámara Astra Expandida"
+                      src={imagenKinectURL}
+                      alt="Stream Kinect Expandido"
                       className="w-full h-full object-cover"
-                    />
-                  </div>
-                </motion.div>
-              )}
-
-              {expandedView === "both" && (
-                <motion.div
-                  className="w-full h-full flex flex-col gap-4 justify-center"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <div className="bg-black w-full h-1/2 flex items-center justify-center text-white text-lg rounded-md">
-                    Stream Kinect (simulado)
-                  </div>
-                  <div className="h-1/2 rounded-md overflow-hidden">
-                    <img
-                      src={`http://localhost:8000/astra/stream-${modoAstra}-mjpeg`}
-                      alt="Vista Cámara Astra"
-                      className="w-full h-full object-cover rounded-md"
                     />
                   </div>
                 </motion.div>

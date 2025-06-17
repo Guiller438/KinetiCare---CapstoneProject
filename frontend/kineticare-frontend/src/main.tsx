@@ -7,6 +7,18 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App.tsx";
 
+// ✅ Registro del Service Worker para Firebase
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("/firebase-messaging-sw.js")
+    .then((registration) => {
+      console.log("✅ Service Worker registrado correctamente:", registration);
+    })
+    .catch((err) => {
+      console.error("❌ Error registrando el Service Worker:", err);
+    });
+}
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>

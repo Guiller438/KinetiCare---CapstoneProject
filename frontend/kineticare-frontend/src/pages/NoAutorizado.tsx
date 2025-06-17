@@ -14,7 +14,7 @@ function NoAutorizado() {
         </p>
 
         <Link
-          to="/"
+          to="/home"
           className="bg-udla-red text-white px-6 py-3 rounded-lg hover:bg-red-700 transition"
         >
           Volver al inicio

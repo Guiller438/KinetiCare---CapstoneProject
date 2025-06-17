@@ -58,7 +58,7 @@ namespace MSEvaluacionyDiagnostico.Services
 
         public async Task<List<PacienteDTO>> ObtenerPorFisioterapeutaAsync(int fisioterapeutaId)
         {
-            var paciente =  await _context.Pacientes
+            var paciente = await _context.Pacientes
                 .Where(p => p.FisioterapeutaId == fisioterapeutaId)
                 .Select(p => new PacienteDTO
                 {
@@ -141,7 +141,7 @@ namespace MSEvaluacionyDiagnostico.Services
 
         public async Task<List<PacienteDTO>> ObtenerPacientesPorNombre(string nombre)
         {
-            var paciente =  await _context.Pacientes
+            var paciente = await _context.Pacientes
                 .Where(p => p.Nombres.Contains(nombre) || p.Apellidos.Contains(nombre))
                 .Select(p => new PacienteDTO
                 {

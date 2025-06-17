@@ -7,3 +7,5 @@ primesense
 opencv-python
 openni
 pywin32
+pymongo
+pylance

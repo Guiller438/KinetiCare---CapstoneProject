@@ -1,6 +1,7 @@
 import os
 import cv2
 import numpy as np
+import base64
 from datetime import datetime
 from primesense import openni2
 import win32com.client
@@ -48,7 +49,7 @@ class AstraCameraService:
         except Exception as e:
             raise RuntimeError(f"❌ No se detectó dispositivo Astra. {e}")
 
-        # Flujo RGB con OpenNI2
+        # Flujo RGB
         try:
             color_stream = self.device.create_color_stream()
             if color_stream is not None:
@@ -120,6 +121,28 @@ class AstraCameraService:
         except Exception as e:
             raise RuntimeError(f"❌ Error capturando profundidad: {e}")
 
+    def tomar_captura(self):
+        if not self.depth_available:
+            raise RuntimeError("❌ Profundidad no disponible.")
+
+        # Captura profundidad en mm (sin normalizar)
+        frame = self.depth_stream.read_frame()
+        depth_data = frame.get_buffer_as_uint16()
+        depth_array = np.ndarray((frame.height, frame.width), dtype=np.uint16, buffer=depth_data)
+
+        perfil_vertical = depth_array[:, depth_array.shape[1] // 2].tolist()
+        media_mm = float(np.mean(depth_array))
+        silueta = (depth_array < 2000).astype(int).tolist()
+
+        return {
+            "timestamp": datetime.now(),
+            "perfil_vertical_mm": perfil_vertical,
+            "media_distancia_mm": media_mm,
+            "silueta_binaria": silueta
+            # Omitimos rgb_base64 y depth_map para evitar carga pesada
+        }
+
+
     def capture_and_save(self, output_dir="capturas", modo="rgb"):
         os.makedirs(output_dir, exist_ok=True)
         frame = self.get_rgb_frame() if modo == "rgb" else self.get_depth_frame()
@@ -151,8 +174,10 @@ class AstraCameraService:
             pass
         print("🔒 Recursos de AstraCameraService liberados.")
 
+# 🧼 Limpieza inicial de cámaras abiertas por procesos anteriores
 release_all_cameras()
 
+# ✅ Instancia global reutilizable en todo el microservicio
 try:
     astra_service = AstraCameraService()
 except RuntimeError as e:

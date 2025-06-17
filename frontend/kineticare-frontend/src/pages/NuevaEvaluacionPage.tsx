@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../services/api";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Select from 'react-select'; // Importación de react-select
+import Select from "react-select";
 
 interface Pregunta {
   id: number;
@@ -19,14 +19,16 @@ interface Paciente {
 
 const NuevaEvaluacionPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { evaluacionId, pacienteId } = location.state || {};
+
   const [pacientes, setPacientes] = useState<Paciente[]>([]);
-  const [pacienteSeleccionado, setPacienteSeleccionado] = useState<number | null>(null);
+  const [pacienteSeleccionado, setPacienteSeleccionado] = useState<number | null>(pacienteId ?? null);
   const [preguntasDisponibles, setPreguntasDisponibles] = useState<Pregunta[]>([]);
   const [preguntasSeleccionadas, setPreguntasSeleccionadas] = useState<Pregunta[]>([]);
   const [respuestas, setRespuestas] = useState<{ [key: number]: string }>({});
+  const [observaciones, setObservaciones] = useState("");
   const [cargando, setCargando] = useState<boolean>(true);
-
-  // NUEVO: estados para crear nueva pregunta
   const [mostrarFormularioNuevaPregunta, setMostrarFormularioNuevaPregunta] = useState(false);
   const [nuevaPreguntaTexto, setNuevaPreguntaTexto] = useState("");
 
@@ -75,57 +77,96 @@ const NuevaEvaluacionPage = () => {
     toast.info("ℹ️ Pregunta eliminada del formulario");
   };
 
-  const manejarGuardarEvaluacion = () => {
+const manejarGuardarEvaluacion = async () => {
     if (!pacienteSeleccionado) {
       toast.error("❌ Debes seleccionar un paciente antes de guardar.");
       return;
     }
-    const datosEvaluacion = {
+
+    if (preguntasSeleccionadas.length === 0) {
+      toast.error("❌ Debes seleccionar al menos una pregunta.");
+      return;
+    }
+
+    const algunaSinRespuesta = preguntasSeleccionadas.some(
+      (p) => !respuestas[p.id] || respuestas[p.id].trim() === ""
+    );
+
+    if (algunaSinRespuesta) {
+      toast.error("❌ Todas las preguntas deben tener respuesta.");
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+    const usuarioId = Number(localStorage.getItem("usuarioId"));
+
+    const datos = {
+      evaluacionId: evaluacionId ?? 0,
+      usuarioId: usuarioId,
       pacienteId: pacienteSeleccionado,
+      valorX: 0,
+      valorY: 0,
+      valorZ: 0,
+      observaciones,
       respuestas: preguntasSeleccionadas.map((pregunta) => ({
         preguntaId: pregunta.id,
         valor: respuestas[pregunta.id] || "",
       })),
     };
-    console.log("Datos a enviar:", datosEvaluacion);
-    toast.success("✅ Evaluación simulada guardada correctamente");
-    navigate("/menuevaluacion");
+
+    const endpoint = evaluacionId
+      ? "/api/Evaluacion/seguimiento"
+      : "/api/Evaluacion/crear";
+
+    try {
+      await api.post(endpoint, datos, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      toast.success(
+        evaluacionId
+          ? "✅ Seguimiento guardado correctamente"
+          : "✅ Evaluación creada correctamente"
+      );
+
+      const paciente = pacientes.find((p) => p.id === pacienteSeleccionado);
+      const nombreCompleto = paciente ? `${paciente.nombres} ${paciente.apellidos}` : "Paciente desconocido";
+
+
+      navigate("/tomaDatosClinicos", { state: { pacienteId: pacienteSeleccionado, pacienteNombre : nombreCompleto } });
+    } catch (error) {
+      console.error("❌ Error al guardar evaluación:", error);
+      toast.error("❌ Ocurrió un error al guardar los datos");
+    }
   };
 
-  // NUEVO: Función para agregar nueva pregunta
   const manejarAgregarNuevaPregunta = async () => {
     if (nuevaPreguntaTexto.trim() === "") {
       toast.error("❌ La pregunta no puede estar vacía.");
       return;
     }
-  
+
     try {
       const token = localStorage.getItem("token");
-  
-      const payload = [
-        {
-          texto: nuevaPreguntaTexto.trim(),
-        },
-      ];
-  
+      const payload = [{ texto: nuevaPreguntaTexto.trim() }];
+
       const response = await api.post("/api/cuestionario/crearPreguntas", payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
-  
-      const nuevasPreguntas: Pregunta[] = response.data; // Asumimos que tu API regresa las preguntas creadas
-  
+
+      const nuevasPreguntas: Pregunta[] = response.data;
       setPreguntasDisponibles((prev) => [...prev, ...nuevasPreguntas]);
       setNuevaPreguntaTexto("");
       setMostrarFormularioNuevaPregunta(false);
-  
       toast.success("✅ Pregunta creada exitosamente");
     } catch (error) {
       console.error("Error al crear nueva pregunta", error);
       toast.error("❌ Error al crear la nueva pregunta");
     }
   };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -135,29 +176,35 @@ const NuevaEvaluacionPage = () => {
           Nueva Evaluación
         </h1>
 
+        {evaluacionId && (
+          <div className="bg-yellow-100 border-l-4 border-yellow-600 text-yellow-800 p-4 rounded mb-6">
+            <strong>Modo seguimiento:</strong> estás registrando un seguimiento clínico para la evaluación #{evaluacionId}.
+          </div>
+        )}
+
         {cargando ? (
           <div className="text-center text-rose-700">Cargando datos...</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Columna izquierda */}
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-xl font-semibold mb-4 text-rose-700">1. Buscar Paciente</h2>
 
               <Select
                 options={pacientes.map((paciente) => ({
                   value: paciente.id,
-                  label: `${paciente.nombres} ${paciente.apellidos}`
+                  label: `${paciente.nombres} ${paciente.apellidos}`,
                 }))}
                 value={pacientes
                   .map((paciente) => ({
                     value: paciente.id,
-                    label: `${paciente.nombres} ${paciente.apellidos}`
+                    label: `${paciente.nombres} ${paciente.apellidos}`,
                   }))
                   .find((opcion) => opcion.value === pacienteSeleccionado) || null}
                 onChange={(opcion) => setPacienteSeleccionado(opcion?.value || null)}
                 placeholder="Selecciona un paciente..."
                 noOptionsMessage={() => "No se encontró ningún paciente"}
-                isClearable
+                isClearable={!pacienteId}
+                isDisabled={!!pacienteId}
                 className="mb-8"
               />
 
@@ -174,7 +221,6 @@ const NuevaEvaluacionPage = () => {
                 ))}
               </div>
 
-              {/* Botón de nueva pregunta */}
               <div className="mt-6 text-center">
                 {!mostrarFormularioNuevaPregunta ? (
                   <button
@@ -214,7 +260,6 @@ const NuevaEvaluacionPage = () => {
               </div>
             </div>
 
-            {/* Columna derecha */}
             <div className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-xl font-semibold mb-4 text-rose-700">3. Formulario de Evaluación</h2>
               {preguntasSeleccionadas.length === 0 ? (
@@ -245,6 +290,19 @@ const NuevaEvaluacionPage = () => {
                   ))}
                 </div>
               )}
+
+              <div className="mt-6">
+                <label className="block text-gray-700 font-semibold mb-2">
+                  Observaciones (opcional)
+                </label>
+                <textarea
+                  value={observaciones}
+                  onChange={(e) => setObservaciones(e.target.value)}
+                  className="w-full border rounded-md p-2 focus:outline-none focus:ring focus:border-rose-500"
+                  rows={3}
+                  placeholder="Escribe observaciones generales sobre el paciente..."
+                />
+              </div>
 
               <div className="flex justify-end mt-8">
                 <button

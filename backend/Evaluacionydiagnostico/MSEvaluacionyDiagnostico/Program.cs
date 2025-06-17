@@ -18,7 +18,8 @@ builder.Services.AddDbContext<KinetiCareDbContext>(options =>
 builder.Services.AddScoped<IPacienteService, PacienteService>();
 builder.Services.AddScoped<IPreguntaService, PreguntaService>();
 builder.Services.AddHttpClient<IRespuestaService, RespuestaService>();
-
+builder.Services.AddScoped<IEvaluacionService, EvaluacionService>();
+builder.Services.AddScoped<ISeguimientoService, SeguimientoService>();
 
 builder.Services.AddCors(options =>
 {

@@ -1,6 +1,11 @@
 from fastapi import FastAPI
 from app.api.captura import router as captura_router
 from fastapi.middleware.cors import CORSMiddleware
+from app.Database.mongo import inicializar_dispositivos
+from app.Database.mongo import inicializar_base_datos_completa
+
+
+
 
 app = FastAPI(
     title="KinetiCare - Astra Microservicio",
@@ -17,6 +22,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ⚙️ Inicializar dispositivos y base de datos al iniciar la app
+@app.on_event("startup")
+def startup_event():
+    print("🚀 Inicializando base de datos MongoDB...")
+    inicializar_base_datos_completa()
+    print("✅ Dispositivos verificados y base lista.")
+    
 app.include_router(captura_router)
-import cv2
 

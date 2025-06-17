@@ -1,17 +1,20 @@
+import { Routes, Route, Navigate } from "react-router-dom";
+
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
-import HomePage from "../pages/HomePage"; 
-import AdminUsuariosPage from "../pages/AdminUsuariosPage";
 import NoAutorizado from "../pages/NoAutorizado";
+import HomePage from "../pages/HomePage";
+import AdminUsuariosPage from "../pages/AdminUsuariosPage";
 import EvaluacionPage from "../pages/MenuEvaluacion";
 import NuevaEvaluacionPage from "../pages/NuevaEvaluacionPage";
+import NuevoPacientePage from "../pages/nuevoPacientePage";
 import TomaDeDatos from "../pages/TomaDeDatosClinicosPage";
+import SeguimientoPage from "../pages/SeguimientoPage";
+import DisponibilidadPage from "../pages/DisponibilidadPage";
+import AgendarCitaPage from "../pages/AgendarCitaPage"; // ✅ Importación agregada
 
 import ProtectedRoute from "../components/ProtectedRoute";
-
-import { Routes, Route } from "react-router-dom";
-import NuevoPacientePage from "../pages/nuevoPacientePage";
 
 const AppRoutes = () => {
   return (
@@ -21,16 +24,9 @@ const AppRoutes = () => {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
       <Route path="/no-autorizado" element={<NoAutorizado />} />
-      <Route path="/home" element={<HomePage />} />
-      <Route path="/menuevaluacion" element={<EvaluacionPage />} />
-      <Route path="/evaluaciones/nueva" element={<NuevaEvaluacionPage />} />
-      <Route path="/evaluaciones/crearPaciente" element={<NuevoPacientePage />} />
-      <Route path="/tomaDatosClinicos" element={<TomaDeDatos />} />
-
-      {/* Rutas de error */}
 
       {/* Rutas protegidas */}
-{/*      <Route 
+      <Route 
         path="/home" 
         element={
           <ProtectedRoute rolesPermitidos={["Administrador", "Fisioterapeuta"]}>
@@ -38,7 +34,7 @@ const AppRoutes = () => {
           </ProtectedRoute>
         } 
       />
-*/}
+
       <Route 
         path="/usuarios" 
         element={
@@ -47,6 +43,72 @@ const AppRoutes = () => {
           </ProtectedRoute>
         } 
       />
+
+      <Route 
+        path="/menuevaluacion"
+        element={
+          <ProtectedRoute rolesPermitidos={["Administrador", "Fisioterapeuta"]}>
+            <EvaluacionPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route 
+        path="/evaluaciones/nueva" 
+        element={
+          <ProtectedRoute rolesPermitidos={["Administrador", "Fisioterapeuta"]}>
+            <NuevaEvaluacionPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route 
+        path="/evaluaciones/crearPaciente" 
+        element={
+          <ProtectedRoute rolesPermitidos={["Administrador", "Fisioterapeuta"]}>
+            <NuevoPacientePage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route 
+        path="/tomaDatosClinicos" 
+        element={
+          <ProtectedRoute rolesPermitidos={["Administrador", "Fisioterapeuta"]}>
+            <TomaDeDatos />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route 
+        path="/evaluaciones/seguimiento" 
+        element={
+          <ProtectedRoute rolesPermitidos={["Administrador", "Fisioterapeuta"]}>
+            <SeguimientoPage />
+          </ProtectedRoute>
+        } 
+      />
+
+      <Route 
+        path="/disponibilidad" 
+        element={
+          <ProtectedRoute rolesPermitidos={["Administrador", "Fisioterapeuta"]}>
+            <DisponibilidadPage />
+          </ProtectedRoute>
+        } 
+      />
+
+      <Route 
+        path="/agendar-cita" 
+        element={
+          <ProtectedRoute rolesPermitidos={["Administrador", "Fisioterapeuta"]}>
+            <AgendarCitaPage />
+          </ProtectedRoute>
+        } 
+      />
+
+      {/* Ruta comodín */}
+      <Route path="*" element={<Navigate to="/no-autorizado" />} />
     </Routes>
   );
 };

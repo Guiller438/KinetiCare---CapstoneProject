@@ -99,7 +99,6 @@ function RegisterPage() {
               <option value="">Selecciona un rol</option>
               <option value="1">Administrador</option>
               <option value="2">Fisioterapeuta</option>
-              <option value="3">Paciente</option>
             </select>
             {errors.rolId && (
               <p className="text-sm text-red-500 mt-1">Debes seleccionar un rol.</p>

@@ -133,23 +133,18 @@ function AdminUsuariosPage() {
 
   return (
     <div className="min-h-screen bg-udla-light flex flex-col">
-      {/* Modales de edición y eliminación omitidos por brevedad */}
       <Header />
       <main className="flex-grow container mx-auto px-4 py-6">
         <h1 className="text-3xl font-bold text-udla-red mb-4">Gestión de usuarios</h1>
 
         <div className="flex flex-wrap gap-2 mb-2">
           <button
-            className={`px-4 py-2 rounded ${
-              !mostrarInactivos ? 'bg-udla-red text-white' : 'bg-gray-200 text-black'
-            }`}
+            className={`px-4 py-2 rounded ${!mostrarInactivos ? 'bg-udla-red text-white' : 'bg-gray-200 text-black'}`}
             onClick={() => setMostrarInactivos(false)}
           >Usuarios activos</button>
 
           <button
-            className={`px-4 py-2 rounded ${
-              mostrarInactivos ? 'bg-udla-red text-white' : 'bg-gray-200 text-black'
-            }`}
+            className={`px-4 py-2 rounded ${mostrarInactivos ? 'bg-udla-red text-white' : 'bg-gray-200 text-black'}`}
             onClick={() => setMostrarInactivos(true)}
           >Usuarios inactivos</button>
         </div>
@@ -162,7 +157,6 @@ function AdminUsuariosPage() {
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
           />
-
           <a href="/register" className="bg-udla-red text-white px-4 py-2 rounded-2xl hover:bg-red-700 transition">
             + Nuevo Usuario
           </a>
@@ -222,6 +216,86 @@ function AdminUsuariosPage() {
           </div>
         )}
       </main>
+
+      {/* MODAL DE EDICIÓN */}
+      {modalAbierto && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+            <h2 className="text-xl font-bold mb-4 text-udla-red">Editar Usuario</h2>
+            <div className="space-y-4">
+              <input
+                type="text"
+                className="w-full border p-2 rounded"
+                placeholder="Nombre"
+                value={usuarioEditando?.nombre}
+                onChange={(e) => setUsuarioEditando({ ...usuarioEditando, nombre: e.target.value })}
+              />
+              <input
+                type="email"
+                className="w-full border p-2 rounded"
+                placeholder="Correo"
+                value={usuarioEditando?.correo}
+                onChange={(e) => setUsuarioEditando({ ...usuarioEditando, correo: e.target.value })}
+              />
+              <select
+                className="w-full border p-2 rounded"
+                value={usuarioEditando?.rolId}
+                onChange={(e) =>
+                  setUsuarioEditando({ ...usuarioEditando, rolId: parseInt(e.target.value) })
+                }
+              >
+                <option value="">Seleccionar rol</option>
+                <option value={1}>Administrador</option>
+                <option value={2}>Fisioterapeuta</option>
+                <option value={3}>Paciente</option>
+              </select>
+            </div>
+            <div className="flex justify-end gap-2 mt-6">
+              <button
+                onClick={() => setModalAbierto(false)}
+                className="bg-gray-200 px-4 py-2 rounded"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={guardarCambios}
+                className="bg-udla-red text-white px-4 py-2 rounded hover:bg-red-700"
+              >
+                Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL DE ELIMINACIÓN */}
+      {modalEliminarAbierto && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-sm p-6">
+            <h2 className="text-lg font-semibold text-udla-red mb-4">
+              ¿Estás seguro de eliminar este usuario?
+            </h2>
+            <p className="mb-6">
+              Esta acción no se puede deshacer. El usuario será eliminado del sistema.
+            </p>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setModalEliminarAbierto(false)}
+                className="bg-gray-200 text-black px-4 py-2 rounded"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={eliminarUsuario}
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
     </div>
   );

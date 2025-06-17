@@ -10,5 +10,7 @@
         public string Sexo { get; set; }
         public string Diagnostico { get; set; }
         public int? FisioterapeutaId { get; set; }
+
+
     }
 }

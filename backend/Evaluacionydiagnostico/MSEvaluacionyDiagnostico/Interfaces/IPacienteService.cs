@@ -1,5 +1,5 @@
 ﻿using MSEvaluacionyDiagnostico.DTOs;
-using MSEvaluacionyDiagnostico.Models;
+//using MSEvaluacionyDiagnostico.Models;
 
 namespace MSEvaluacionyDiagnostico.Interfaces
 {

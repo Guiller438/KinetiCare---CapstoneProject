@@ -11,7 +11,7 @@ namespace MSEvaluacionyDiagnostico.Services
     public class RespuestaService : IRespuestaService
     {
         private readonly KinetiCareDbContext _context;
-        private readonly HttpClient _httpClient; 
+        private readonly HttpClient _httpClient;
 
         public RespuestaService(KinetiCareDbContext context, HttpClient httpClient)
         {
