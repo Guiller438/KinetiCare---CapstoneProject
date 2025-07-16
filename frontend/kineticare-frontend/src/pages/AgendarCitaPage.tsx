@@ -3,11 +3,11 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import api from "../services/api";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Select from "react-select";
 
 interface Paciente {
-  pacienteId: number;
+  id: number;
   nombres: string;
   apellidos: string;
 }
@@ -23,6 +23,7 @@ interface SubBloque {
   disponibilidadId: number;
   horaInicioReal: string;
   horaFinReal: string;
+  ocupado?: boolean;
 }
 
 type OptionType = {
@@ -32,10 +33,14 @@ type OptionType = {
 
 function AgendarCitaPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { pacienteId: pacienteIdDesdeOtraPantalla } = location.state || {};
+
   const fisioterapeutaId = parseInt(localStorage.getItem("usuarioId") || "0");
+  const nombreFisioterapeuta = localStorage.getItem("usuarioNombre") || "Fisioterapeuta";
 
   const [pacientes, setPacientes] = useState<Paciente[]>([]);
-  const [pacienteId, setPacienteId] = useState<number | null>(null);
+  const [pacienteSeleccionado, setPacienteSeleccionado] = useState<OptionType | null>(null);
   const [fecha, setFecha] = useState<string>("");
   const [subBloques, setSubBloques] = useState<SubBloque[]>([]);
   const [bloqueSeleccionado, setBloqueSeleccionado] = useState<SubBloque | null>(null);
@@ -43,22 +48,34 @@ function AgendarCitaPage() {
 
   const cargarPacientes = async () => {
     try {
-      const response = await api.get("/api/paciente/obtenerPacientes");
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        toast.error("No se encontró el token. Vuelve a iniciar sesión.");
+        return;
+      }
+
+      const response = await api.get(`/api/Paciente/pacienteporfisioterapeuta/${fisioterapeutaId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setPacientes(response.data);
     } catch (error) {
       toast.error("Error al cargar pacientes");
+      console.error(error);
     }
   };
 
+
   const cargarSubBloques = async () => {
     if (!fecha) return;
-    const fechaObj = new Date(fecha);
+
+    const fechaObj = new Date(fecha + "T00:00:00");
     const diaSemana = fechaObj.getDay();
 
     try {
       const response = await api.get(`/api/Disponibilidad/fisioterapeuta/${fisioterapeutaId}`);
       const disponibilidades: Disponibilidad[] = response.data;
-      const bloquesDia = disponibilidades.filter(d => d.diaSemana === diaSemana);
+      const bloquesDia = disponibilidades.filter((d) => d.diaSemana === diaSemana);
 
       const nuevosSubBloques: SubBloque[] = [];
 
@@ -68,7 +85,7 @@ function AgendarCitaPage() {
 
         let actual = new Date(inicio);
         while (actual < fin) {
-          const siguiente = new Date(actual.getTime() + 60 * 60 * 1000); // 1 hora
+          const siguiente = new Date(actual.getTime() + 60 * 60 * 1000);
           if (siguiente <= fin) {
             nuevosSubBloques.push({
               disponibilidadId: bloque.disponibilidadId,
@@ -80,7 +97,32 @@ function AgendarCitaPage() {
         }
       }
 
-      setSubBloques(nuevosSubBloques);
+      const ocupadasResp = await api.get("/api/Citas/ocupadas", {
+        params: {
+          fisioterapeutaId,
+          fecha: fecha + "T00:00:00",
+        },
+      });
+
+      const horasOcupadas: string[] = ocupadasResp.data.map((d: string) => {
+        const date = new Date(d);
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, "0");
+        const dd = String(date.getDate()).padStart(2, "0");
+        const hh = String(date.getHours()).padStart(2, "0");
+        const min = String(date.getMinutes()).padStart(2, "0");
+        return `${yyyy}-${mm}-${dd}T${hh}:${min}`;
+      });
+
+      const subBloquesFinales = nuevosSubBloques.map((b) => {
+        const bloqueStr = `${fecha}T${b.horaInicioReal}`;
+        return {
+          ...b,
+          ocupado: horasOcupadas.includes(bloqueStr),
+        };
+      });
+
+      setSubBloques(subBloquesFinales);
     } catch (error) {
       toast.error("Error al cargar disponibilidad");
     }
@@ -93,34 +135,12 @@ function AgendarCitaPage() {
     return date;
   };
 
-  const formatHora = (date: Date) =>
-    date.toTimeString().substring(0, 5);
+  const formatHora = (date: Date) => date.toTimeString().substring(0, 5);
 
-  const agendarCita = async () => {
-    console.log("PacienteId:", pacienteId, "Fecha:", fecha, "Bloque:", bloqueSeleccionado);
-
-    if (!pacienteId || !fecha || !bloqueSeleccionado) {
-      toast.warning("Completa todos los campos");
-      return;
-    }
-
-    const fechaCita = new Date(`${fecha}T${bloqueSeleccionado.horaInicioReal}`);
-
-    const nuevaCita = {
-      fisioterapeutaId,
-      pacienteId,
-      fechaHora: fechaCita.toISOString(),
-      observacion,
-    };
-
-    try {
-      await api.post("/api/Cita", nuevaCita);
-      toast.success("Cita agendada con éxito");
-      navigate("/home");
-    } catch (error) {
-      toast.error("Error al agendar la cita");
-    }
-  };
+  const pacienteOptions: OptionType[] = pacientes.map((paciente) => ({
+    value: paciente.id,
+    label: `${paciente.nombres} ${paciente.apellidos}`,
+  }));
 
   useEffect(() => {
     cargarPacientes();
@@ -130,39 +150,96 @@ function AgendarCitaPage() {
     cargarSubBloques();
   }, [fecha]);
 
-  const pacienteOptions: OptionType[] = pacientes.map((p) => ({
-    value: p.pacienteId,
-    label: `${p.nombres} ${p.apellidos}`,
-  }));
+  useEffect(() => {
+    if (!pacienteIdDesdeOtraPantalla || pacientes.length === 0) return;
 
-  const selectedPaciente = pacienteOptions.find((op) => op.value === pacienteId) || null;
+    const pacienteEncontrado = pacientes.find((p) => p.id === pacienteIdDesdeOtraPantalla);
+    if (pacienteEncontrado) {
+      const option: OptionType = {
+        value: pacienteEncontrado.id,
+        label: `${pacienteEncontrado.nombres} ${pacienteEncontrado.apellidos}`,
+      };
+      setPacienteSeleccionado(option);
+    }
+  }, [pacienteIdDesdeOtraPantalla, pacientes]);
+
+  const agendarCita = async () => {
+    if (!pacienteSeleccionado || !fecha || !bloqueSeleccionado || bloqueSeleccionado.ocupado) {
+      toast.warning("Completa todos los campos correctamente");
+      return;
+    }
+
+    const fechaHoraCita = `${fecha}T${bloqueSeleccionado.horaInicioReal}:00`;
+
+    const nuevaCita = {
+      fisioterapeutaId,
+      pacienteId: pacienteSeleccionado.value,
+      fechaHora: fechaHoraCita,
+      observaciones: observacion,
+    };
+
+    try {
+      await api.post("/api/Citas", nuevaCita);
+      toast.success("Cita agendada con éxito");
+
+      const fechaFormateada = new Date(fechaHoraCita).toLocaleDateString("es-EC", { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const horaFormateada = new Date(fechaHoraCita).toLocaleTimeString("es-EC", { hour: '2-digit', minute: '2-digit' });
+
+      // WhatsApp
+      const notificacionDTO = {
+        nombrePaciente: pacienteSeleccionado.label,
+        nombreFisioterapeuta,
+        fechaCita: fechaHoraCita,
+        numeroDestino: "+593998567371"
+      };
+
+      await fetch("http://localhost:5010/api/whatsapp/enviar-cita", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(notificacionDTO)
+      });
+
+      // Notificación interna usando API centralizado:
+    await api.post("/api/Notification/enviar", null, {
+      params: {
+        receptorId: fisioterapeutaId,
+        tipo: "Usuario",
+        titulo: "Recordatorio Cita",
+        mensaje: `Hola ${nombreFisioterapeuta}, recuerda tu cita el ${fechaFormateada} a las ${horaFormateada} con ${pacienteSeleccionado.label}`
+      }
+    });
+
+      // Notificación interna
+      await fetch(`http://localhost:5010/api/Notification/enviar?receptorId=${pacienteSeleccionado.value}&tipo=Usuario&titulo=Recordatorio Cita&mensaje=Hola ${pacienteSeleccionado.label}, recuerda tu cita el ${fechaFormateada} a las ${horaFormateada} con ${nombreFisioterapeuta}`, {
+        method: "POST"
+      });
+
+      navigate("/home");
+    } catch (error: any) {
+      toast.error("El fisioterapeuta ya tiene una cita agendada en ese horario");
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <Header userId={fisioterapeutaId.toString()} tipo="Usuario" />
 
       <main className="flex-grow container mx-auto px-4 py-8">
         <h2 className="text-2xl font-bold mb-6">Agendar Cita</h2>
 
         <div className="bg-white shadow rounded p-6 space-y-4">
-          {/* Paciente */}
           <div>
             <label className="block font-semibold mb-1">Paciente:</label>
             <Select
               options={pacienteOptions}
-              value={selectedPaciente}
-              onChange={(op: OptionType | null) => {
-                if (op) {
-                  setPacienteId(op.value);
-                } else {
-                  setPacienteId(null);
-                }
-              }}
+              value={pacienteSeleccionado}
+              onChange={(opcion) => setPacienteSeleccionado(opcion)}
               placeholder="Selecciona un paciente..."
+              noOptionsMessage={() => "No se encontró ningún paciente"}
+              isClearable
             />
           </div>
 
-          {/* Fecha */}
           <div>
             <label className="block font-semibold mb-1">Fecha:</label>
             <input
@@ -170,10 +247,10 @@ function AgendarCitaPage() {
               className="w-full p-2 border rounded"
               value={fecha}
               onChange={(e) => setFecha(e.target.value)}
+              min={new Date().toISOString().split("T")[0]}
             />
           </div>
 
-          {/* Sub-bloques disponibles */}
           <div>
             <label className="block font-semibold mb-1">Horarios disponibles:</label>
             <div className="flex flex-wrap gap-2">
@@ -186,12 +263,16 @@ function AgendarCitaPage() {
                 return (
                   <button
                     key={idx}
-                    className={`px-3 py-2 border rounded transition ${
+                    disabled={b.ocupado}
+                    title={b.ocupado ? "Este horario ya está agendado" : ""}
+                    className={`px-3 py-2 border rounded transition text-sm ${
                       seleccionado
-                        ? 'bg-[#c8102e] text-white'
-                        : 'bg-[#f4f4f4] text-black hover:bg-gray-200'
+                        ? "bg-[#c8102e] text-white"
+                        : b.ocupado
+                        ? "bg-gray-200 text-gray-500 line-through cursor-not-allowed"
+                        : "bg-[#f4f4f4] text-black hover:bg-gray-200"
                     }`}
-                    onClick={() => setBloqueSeleccionado(b)}
+                    onClick={() => !b.ocupado && setBloqueSeleccionado(b)}
                   >
                     {b.horaInicioReal} - {b.horaFinReal}
                   </button>
@@ -200,7 +281,6 @@ function AgendarCitaPage() {
             </div>
           </div>
 
-          {/* Observación */}
           <div>
             <label className="block font-semibold mb-1">Observación:</label>
             <textarea
@@ -212,7 +292,6 @@ function AgendarCitaPage() {
             ></textarea>
           </div>
 
-          {/* Botón agendar */}
           <div className="pt-4">
             <button
               onClick={agendarCita}

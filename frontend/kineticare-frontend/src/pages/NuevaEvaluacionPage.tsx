@@ -36,12 +36,21 @@ const NuevaEvaluacionPage = () => {
     const cargarDatos = async () => {
       try {
         const token = localStorage.getItem("token");
-        const pacientesResponse = await api.get("/api/paciente/obtenerPacientes", {
+        const usuarioId = localStorage.getItem("usuarioId");
+
+        if (!usuarioId) {
+          toast.error("❌ No se pudo obtener el ID del fisioterapeuta.");
+          return;
+        }
+
+        const pacientesResponse = await api.get(`/api/Paciente/pacienteporfisioterapeuta/${usuarioId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
+
         const preguntasResponse = await api.get("/api/cuestionario/obtenerPreguntas", {
           headers: { Authorization: `Bearer ${token}` },
         });
+
         setPacientes(pacientesResponse.data);
         setPreguntasDisponibles(preguntasResponse.data);
       } catch (error) {
@@ -77,7 +86,7 @@ const NuevaEvaluacionPage = () => {
     toast.info("ℹ️ Pregunta eliminada del formulario");
   };
 
-const manejarGuardarEvaluacion = async () => {
+  const manejarGuardarEvaluacion = async () => {
     if (!pacienteSeleccionado) {
       toast.error("❌ Debes seleccionar un paciente antes de guardar.");
       return;
@@ -134,7 +143,6 @@ const manejarGuardarEvaluacion = async () => {
       const paciente = pacientes.find((p) => p.id === pacienteSeleccionado);
       const nombreCompleto = paciente ? `${paciente.nombres} ${paciente.apellidos}` : "Paciente desconocido";
 
-
       navigate("/tomaDatosClinicos", { state: { pacienteId: pacienteSeleccionado, pacienteNombre : nombreCompleto } });
     } catch (error) {
       console.error("❌ Error al guardar evaluación:", error);
@@ -169,7 +177,14 @@ const manejarGuardarEvaluacion = async () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <Header
+        userId={localStorage.getItem("usuarioId") || ""}
+        tipo={
+          localStorage.getItem("tipoUsuario") === "Usuario"
+            ? "Usuario"
+            : "Paciente"
+        }
+      />
 
       <div className="flex-grow container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-center text-rose-700 mb-8">

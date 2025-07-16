@@ -8,7 +8,7 @@ export const iniciarConexionSignalR = async (
   onNotificacionRecibida?: (titulo: string, mensaje: string) => void
 ): Promise<void> => {
   connection = new HubConnectionBuilder()
-    .withUrl(`http://192.168.0.7:5010/hub/notificaciones?userId=${userId}&tipo=${tipo}`)
+    .withUrl(`http://172.31.56.69:5010/hub/notificaciones?userId=${userId}&tipo=${tipo}`)
     .withAutomaticReconnect()
     .configureLogging(LogLevel.Information)
     .build();

@@ -54,6 +54,8 @@ function RegisterPage() {
         )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          
+          {/* Nombre */}
           <div>
             <label className="block text-udla-black font-semibold mb-1">Nombre completo</label>
             <input
@@ -66,34 +68,48 @@ function RegisterPage() {
             )}
           </div>
 
+          {/* Correo solo institucional */}
           <div>
             <label className="block text-udla-black font-semibold mb-1">Correo electrónico</label>
             <input
               type="email"
-              {...register("correo", { required: true })}
+              placeholder="usuario@udla.edu.ec"
+              {...register("correo", {
+                required: "El correo es obligatorio.",
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@udla\.edu\.ec$/i,
+                  message: "Solo se permite correo institucional @udla.edu.ec.",
+                },
+              })}
               className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-udla-red"
             />
             {errors.correo && (
-              <p className="text-sm text-red-500 mt-1">El correo es obligatorio.</p>
+              <p className="text-sm text-red-500 mt-1">
+                {errors.correo.message?.toString()}
+              </p>
             )}
           </div>
 
+          {/* Contraseña */}
           <div>
             <label className="block text-udla-black font-semibold mb-1">Contraseña</label>
             <input
               type="password"
-              {...register("contrasena", { required: true })}
+              {...register("contrasena", { required: "La contraseña es obligatoria." })}
               className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-udla-red"
             />
             {errors.contrasena && (
-              <p className="text-sm text-red-500 mt-1">La contraseña es obligatoria.</p>
+              <p className="text-sm text-red-500 mt-1">
+                {errors.contrasena.message?.toString()}
+              </p>
             )}
           </div>
 
+          {/* Rol */}
           <div>
             <label className="block text-udla-black font-semibold mb-1">Rol</label>
             <select
-              {...register("rolId", { required: true })}
+              {...register("rolId", { required: "Debes seleccionar un rol." })}
               className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-udla-red"
             >
               <option value="">Selecciona un rol</option>
@@ -101,10 +117,13 @@ function RegisterPage() {
               <option value="2">Fisioterapeuta</option>
             </select>
             {errors.rolId && (
-              <p className="text-sm text-red-500 mt-1">Debes seleccionar un rol.</p>
+              <p className="text-sm text-red-500 mt-1">
+                {errors.rolId.message?.toString()}
+              </p>
             )}
           </div>
 
+          {/* Botón */}
           <button
             type="submit"
             className="w-full bg-udla-red text-white font-semibold py-2 rounded-md hover:bg-red-700 transition"

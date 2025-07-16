@@ -482,6 +482,18 @@
       ],
       "UpstreamPathTemplate": "/api/Disponibilidad/EliminarDisponibilidad/{id}",
       "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Notification/enviar",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5010
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Notification/enviar",
+      "UpstreamHttpMethod": [ "POST" ]
     }
   ]
 }

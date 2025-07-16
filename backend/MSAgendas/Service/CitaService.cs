@@ -20,12 +20,11 @@ namespace MSAgendas.Services
             var diaSemana = (int)nuevaCita.FechaHora.DayOfWeek;
             var horaCita = nuevaCita.FechaHora.TimeOfDay;
 
-            // ✅ Evaluación en memoria de los TimeOnly con ToTimeSpan()
             var disponibilidad = _context.DisponibilidadFisioterapeuta
                 .Where(d =>
                     d.FisioterapeutaId == nuevaCita.FisioterapeutaId &&
                     d.DiaSemana == diaSemana)
-                .AsEnumerable() // Desde aquí se ejecuta en memoria
+                .AsEnumerable()
                 .FirstOrDefault(d =>
                     horaCita >= d.HoraInicio.ToTimeSpan() &&
                     horaCita < d.HoraFin.ToTimeSpan()
@@ -40,10 +39,14 @@ namespace MSAgendas.Services
                 };
             }
 
+            var inicioNueva = nuevaCita.FechaHora;
+            var finNueva = inicioNueva.AddHours(1);
+
             bool conflictoFisio = await _context.Cita.AnyAsync(c =>
                 c.FisioterapeutaId == nuevaCita.FisioterapeutaId &&
-                c.FechaHora == nuevaCita.FechaHora &&
-                c.Estado == "Programada"
+                c.Estado == "Programada" &&
+                c.FechaHora < finNueva &&
+                c.FechaHora.AddHours(1) > inicioNueva
             );
 
             if (conflictoFisio)
@@ -270,6 +273,18 @@ namespace MSAgendas.Services
                 })
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<DateTime>> ObtenerCitasOcupadasAsync(int fisioterapeutaId, DateTime fecha)
+        {
+            return await _context.Cita
+                .Where(c =>
+                    c.FisioterapeutaId == fisioterapeutaId &&
+                    c.FechaHora.Date == fecha.Date &&
+                    c.Estado == "Programada")
+                .Select(c => c.FechaHora)
+                .ToListAsync();
+        }
+
 
     }
 }

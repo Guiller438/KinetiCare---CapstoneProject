@@ -4,51 +4,41 @@ import { toast } from "react-toastify";
 import api from "../services/api";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Select from "react-select"; // ✅ Agregado react-select
-
-interface Fisioterapeuta {
-  id: number;
-  nombre: string;
-}
 
 const NuevoPacientePage = () => {
   const navigate = useNavigate();
+
+  const usuarioId = localStorage.getItem("usuarioId");
+  const nombreUsuario = localStorage.getItem("nombreUsuario");
+
   const [formulario, setFormulario] = useState({
     nombres: "",
     apellidos: "",
     fechaNacimiento: "",
     sexo: "",
     diagnostico: "",
-    fisioterapeutaId: 0,
+    correoElectronico: "", // ✅ nuevo campo
+    fisioterapeutaId: parseInt(usuarioId || "0"),
   });
-
-  const [fisioterapeutas, setFisioterapeutas] = useState<Fisioterapeuta[]>([]);
-
-  useEffect(() => {
-    const cargarFisioterapeutas = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await api.get("/api/auth/fisioterapeutas", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setFisioterapeutas(response.data);
-      } catch (error) {
-        console.error("Error al cargar fisioterapeutas", error);
-        toast.error("❌ Error al cargar fisioterapeutas");
-      }
-    };
-
-    cargarFisioterapeutas();
-  }, []);
 
   const manejarCambio = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormulario(prev => ({ ...prev, [name]: value }));
+    setFormulario((prev) => ({ ...prev, [name]: value }));
   };
 
   const manejarGuardarPaciente = async () => {
-    if (!formulario.nombres || !formulario.apellidos || !formulario.fechaNacimiento || !formulario.sexo || !formulario.diagnostico) {
+    const { nombres, apellidos, fechaNacimiento, sexo, diagnostico, correoElectronico } = formulario;
+
+    // Validación de campos obligatorios
+    if (!nombres || !apellidos || !fechaNacimiento || !sexo || !diagnostico || !correoElectronico) {
       toast.error("❌ Todos los campos son obligatorios");
+      return;
+    }
+
+    // Validación del formato de correo electrónico
+    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regexCorreo.test(correoElectronico)) {
+      toast.error("❌ El correo electrónico no es válido");
       return;
     }
 
@@ -68,7 +58,10 @@ const NuevoPacientePage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <Header
+        userId={localStorage.getItem("userId") || ""}
+        tipo={(localStorage.getItem("Usuario") as "Usuario" | "Paciente") || "Usuario"}
+      />
 
       <div className="flex-grow container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-center text-rose-700 mb-8">
@@ -76,6 +69,7 @@ const NuevoPacientePage = () => {
         </h1>
 
         <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md space-y-6">
+          {/* Nombres */}
           <div>
             <label className="block text-gray-700 font-semibold mb-2">Nombres</label>
             <input
@@ -88,6 +82,7 @@ const NuevoPacientePage = () => {
             />
           </div>
 
+          {/* Apellidos */}
           <div>
             <label className="block text-gray-700 font-semibold mb-2">Apellidos</label>
             <input
@@ -100,6 +95,7 @@ const NuevoPacientePage = () => {
             />
           </div>
 
+          {/* Fecha de nacimiento */}
           <div>
             <label className="block text-gray-700 font-semibold mb-2">Fecha de Nacimiento</label>
             <input
@@ -111,6 +107,7 @@ const NuevoPacientePage = () => {
             />
           </div>
 
+          {/* Sexo */}
           <div>
             <label className="block text-gray-700 font-semibold mb-2">Sexo</label>
             <select
@@ -125,6 +122,7 @@ const NuevoPacientePage = () => {
             </select>
           </div>
 
+          {/* Diagnóstico */}
           <div>
             <label className="block text-gray-700 font-semibold mb-2">Diagnóstico</label>
             <input
@@ -137,30 +135,31 @@ const NuevoPacientePage = () => {
             />
           </div>
 
-          {/* 🔥 CAMBIO: Fisioterapeuta con Select y buscador */}
+          {/* Correo electrónico */}
           <div>
-            <label className="block text-gray-700 font-semibold mb-2">Fisioterapeuta</label>
-            <Select
-              options={fisioterapeutas.map((fisio) => ({
-                value: fisio.id,
-                label: `${fisio.nombre} `,
-              }))}
-              value={fisioterapeutas
-                .map((fisio) => ({
-                  value: fisio.id,
-                  label: `${fisio.nombre}`,
-                }))
-                .find((opcion) => opcion.value === formulario.fisioterapeutaId) || null}
-              onChange={(opcion) => setFormulario(prev => ({
-                ...prev,
-                fisioterapeutaId: opcion?.value || 0,
-              }))}
-              placeholder="Seleccione un fisioterapeuta..."
-              noOptionsMessage={() => "No se encontró ningún fisioterapeuta"}
-              isClearable
+            <label className="block text-gray-700 font-semibold mb-2">Correo electrónico</label>
+            <input
+              type="email"
+              name="correoElectronico"
+              value={formulario.correoElectronico}
+              onChange={manejarCambio}
+              className="w-full border rounded-md p-2 focus:outline-none focus:ring focus:border-rose-500"
+              placeholder="Ingrese el correo electrónico"
             />
           </div>
 
+          {/* Fisioterapeuta asignado (solo visible, no editable) */}
+          <div>
+            <label className="block text-gray-700 font-semibold mb-2">Fisioterapeuta asignado</label>
+            <input
+              type="text"
+              value={nombreUsuario || ""}
+              disabled
+              className="w-full border rounded-md p-2 bg-gray-100 text-gray-700"
+            />
+          </div>
+
+          {/* Botón */}
           <div className="flex justify-end">
             <button
               onClick={manejarGuardarPaciente}

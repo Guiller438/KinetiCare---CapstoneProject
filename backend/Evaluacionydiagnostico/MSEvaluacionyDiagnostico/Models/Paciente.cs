@@ -20,6 +20,8 @@ public partial class Paciente
 
     public int? FisioterapeutaId { get; set; }
 
+    public string? CorreoElectronico { get; set; }
+
     [NotMapped]
     public int Edad => FechaNacimiento.HasValue
     ? (int)((DateTime.Now - FechaNacimiento.Value).TotalDays / 365.25)

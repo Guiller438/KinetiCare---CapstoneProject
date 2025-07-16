@@ -45,7 +45,7 @@ function Header({ userId, tipo }: HeaderProps) {
     if (!userId || !tipo) return;
 
     const nuevaConexion = new HubConnectionBuilder()
-      .withUrl(`http://172.31.56.57:5010/hub/notificaciones?userId=${userId}&tipo=${tipo}`, {
+      .withUrl(`http://172.31.56.69:5010/hub/notificaciones?userId=${userId}&tipo=${tipo}`, {
         transport: HttpTransportType.WebSockets
       })
       .withAutomaticReconnect()

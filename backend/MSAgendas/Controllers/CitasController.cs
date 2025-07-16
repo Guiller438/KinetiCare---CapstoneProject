@@ -71,6 +71,14 @@ namespace MSAgendas.Controllers
             return resultado.Exito ? Ok(resultado) : BadRequest(resultado);
         }
 
+        [HttpGet("ocupadas")]
+        public async Task<IActionResult> ObtenerHorariosOcupados([FromQuery] int fisioterapeutaId, [FromQuery] DateTime fecha)
+        {
+            var horasOcupadas = await _citaService.ObtenerCitasOcupadasAsync(fisioterapeutaId, fecha);
+            return Ok(horasOcupadas);
+        }
+
+
 
     }
 }

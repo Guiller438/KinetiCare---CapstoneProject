@@ -28,6 +28,7 @@ namespace MSEvaluacionyDiagnostico.Services
                     Edad = p.Edad,
                     Sexo = p.Sexo,
                     Diagnostico = p.Diagnostico,
+                    CorreoElectronico = p.CorreoElectronico,
                     FisioterapeutaId = p.FisioterapeutaId
                 })
                 .ToListAsync();
@@ -47,6 +48,7 @@ namespace MSEvaluacionyDiagnostico.Services
                     Edad = p.Edad,
                     Sexo = p.Sexo,
                     Diagnostico = p.Diagnostico,
+                    CorreoElectronico = p.CorreoElectronico,
                     FisioterapeutaId = p.FisioterapeutaId
                 })
                 .FirstOrDefaultAsync();
@@ -68,6 +70,7 @@ namespace MSEvaluacionyDiagnostico.Services
                     Edad = p.Edad,
                     Sexo = p.Sexo ?? "Sexo no especificado",
                     Diagnostico = p.Diagnostico ?? "Diagnóstico no especificado",
+                    CorreoElectronico = p.CorreoElectronico,
                     FisioterapeutaId = p.FisioterapeutaId
                 })
                 .ToListAsync();
@@ -86,6 +89,7 @@ namespace MSEvaluacionyDiagnostico.Services
                 FechaNacimiento = pacienteDTO.FechaNacimiento,
                 Sexo = pacienteDTO.Sexo,
                 Diagnostico = pacienteDTO.Diagnostico,
+                CorreoElectronico = pacienteDTO.CorreoElectronico,
                 FisioterapeutaId = pacienteDTO.FisioterapeutaId
             };
 
@@ -100,6 +104,7 @@ namespace MSEvaluacionyDiagnostico.Services
                 Edad = paciente.Edad,
                 Sexo = paciente.Sexo,
                 Diagnostico = paciente.Diagnostico,
+                CorreoElectronico = paciente.CorreoElectronico,
                 FisioterapeutaId = paciente.FisioterapeutaId
             };
         }
@@ -118,6 +123,7 @@ namespace MSEvaluacionyDiagnostico.Services
             paciente.Sexo = pacienteDTO.Sexo;
             paciente.Diagnostico = pacienteDTO.Diagnostico;
             paciente.FisioterapeutaId = pacienteDTO.FisioterapeutaId;
+            paciente.CorreoElectronico = pacienteDTO.CorreoElectronico;
             _context.Pacientes.Update(paciente);
             await _context.SaveChangesAsync();
             return true;
@@ -151,6 +157,7 @@ namespace MSEvaluacionyDiagnostico.Services
                     Edad = p.Edad,
                     Sexo = p.Sexo,
                     Diagnostico = p.Diagnostico,
+                    CorreoElectronico = p.CorreoElectronico,
                     FisioterapeutaId = p.FisioterapeutaId
                 })
                 .ToListAsync();
@@ -172,6 +179,7 @@ namespace MSEvaluacionyDiagnostico.Services
                     Edad = p.Edad,
                     Sexo = p.Sexo,
                     Diagnostico = p.Diagnostico,
+                    CorreoElectronico = p.CorreoElectronico,
                     FisioterapeutaId = p.FisioterapeutaId
                 })
                 .ToListAsync();

@@ -12,7 +12,12 @@ import NuevoPacientePage from "../pages/nuevoPacientePage";
 import TomaDeDatos from "../pages/TomaDeDatosClinicosPage";
 import SeguimientoPage from "../pages/SeguimientoPage";
 import DisponibilidadPage from "../pages/DisponibilidadPage";
-import AgendarCitaPage from "../pages/AgendarCitaPage"; // ✅ Importación agregada
+import AgendarCitaPage from "../pages/AgendarCitaPage";
+import AnalisisPage from "../pages/AnalisisPage";
+import MisCitasPage from "../pages/MisCitasPage"; 
+import VerPacientesPage from "../pages/VerPacientesPage";
+import EditarPacientePage from "../pages/EditarPacientePage";
+
 
 import ProtectedRoute from "../components/ProtectedRoute";
 
@@ -72,6 +77,22 @@ const AppRoutes = () => {
       />
 
       <Route 
+        path="/evaluaciones/verPacientes"  
+        element={
+          <ProtectedRoute rolesPermitidos={["Administrador", "Fisioterapeuta"]}>
+            <VerPacientesPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route 
+        path="/evaluaciones/editarPaciente/:id" 
+        element={
+          <ProtectedRoute rolesPermitidos={["Administrador", "Fisioterapeuta"]}>
+            <EditarPacientePage />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
         path="/tomaDatosClinicos" 
         element={
           <ProtectedRoute rolesPermitidos={["Administrador", "Fisioterapeuta"]}>
@@ -107,9 +128,29 @@ const AppRoutes = () => {
         } 
       />
 
+      <Route 
+        path="/analisis" 
+        element={
+          <ProtectedRoute rolesPermitidos={["Administrador", "Fisioterapeuta"]}>
+            <AnalisisPage />
+          </ProtectedRoute>
+        } 
+      />
+
+      <Route 
+        path="/mis-citas" 
+        element={
+          <ProtectedRoute rolesPermitidos={["Administrador", "Fisioterapeuta"]}>
+            <MisCitasPage />
+          </ProtectedRoute>
+        } 
+      />
+
+
       {/* Ruta comodín */}
       <Route path="*" element={<Navigate to="/no-autorizado" />} />
     </Routes>
+    
   );
 };
 

@@ -91,6 +91,7 @@ public partial class KinetiCareDbContext : DbContext
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .IsFixedLength();
+            entity.Property(e => e.CorreoElectronico).HasMaxLength(100);
 
             entity.HasOne(d => d.Fisioterapeuta).WithMany(p => p.Pacientes)
                 .HasForeignKey(d => d.FisioterapeutaId)

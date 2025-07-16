@@ -11,6 +11,9 @@
         public string Diagnostico { get; set; }
         public int? FisioterapeutaId { get; set; }
 
+        public string? CorreoElectronico { get; set; }
+
+
 
     }
 }
